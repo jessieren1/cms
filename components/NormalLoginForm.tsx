@@ -10,7 +10,12 @@ const NormalLoginForm = () => {
   const router = useRouter()
 
   const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
+    console.log(values)
+    // localStorage.setItem('email', values.email);
+    // localStorage.setItem('password', values.password);
+    // localStorage.setItem('loginType', values.loginType);
+    // localStorage.setItem('remember', values.remember);
+    //localStorage.setItem("form",JSON.stringify(values));
     router.push('/dashboard')
   };
     
