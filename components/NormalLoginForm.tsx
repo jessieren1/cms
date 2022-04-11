@@ -53,12 +53,15 @@ const NormalLoginForm = () => {
       </Form.Item>
 
       <Form.Item
-        name="username"
+        name="email"
         rules={[
           {
             required: true,
-            message: "Please input your Username!",
+            message: "Please input your email!",
           },
+          {
+            type:"email"
+          }
         ]}
       >
         <Input
@@ -74,6 +77,7 @@ const NormalLoginForm = () => {
             required: true,
             message: "Please input your Password!",
           },
+          { min: 4, max: 16 }
         ]}
       >
         <Input
