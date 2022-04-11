@@ -2,11 +2,19 @@ import React from "react";
 import "antd/dist/antd.css";
 import { Form, Input, Button, Checkbox, Radio } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { useRouter } from 'next/router'
+
 
 const NormalLoginForm = () => {
-  // const onFinish = (values) => {
-  //   console.log('Received values of form: ', values);
-  // };
+
+  const router = useRouter()
+
+  const onFinish = (values: any) => {
+    console.log('Received values of form: ', values);
+    router.push('/dashboard')
+  };
+    
+  
 
   const [loginType, setLoginType] = React.useState("Student");
   const options = [
@@ -22,10 +30,10 @@ const NormalLoginForm = () => {
       initialValues={{
         remember: true,
       }}
-      // onFinish={onFinish}
+      onFinish={onFinish}
     >
       <Form.Item
-        name="radio"
+        name="radioType"
         rules={[
           {
             required: true,
@@ -34,7 +42,6 @@ const NormalLoginForm = () => {
         ]}
       >
           <Radio.Group
-          defaultValue={loginType} // Warning: [antd: Form.Item] `defaultValue` will not work on controlled Field. You should use `initialValues` of Form instead.
           options={options}
           onChange={ e => {
             //console.log('radio3 checked', e.target.value);
