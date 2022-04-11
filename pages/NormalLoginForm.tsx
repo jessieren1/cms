@@ -8,7 +8,12 @@ const NormalLoginForm = () => {
   //   console.log('Received values of form: ', values);
   // };
 
-  const [loginType, setLoginType] = React.useState("student");
+  const [loginType, setLoginType] = React.useState("Student");
+  const options = [
+    { label: 'Student', value: 'Student' },
+    { label: 'Teacher', value: 'Teacher' },
+    { label: 'Manager', value: 'Manager' },
+  ];
 
   return (
     <Form
@@ -24,19 +29,20 @@ const NormalLoginForm = () => {
         rules={[
           {
             required: true,
+            message: "Please choose your Login Type!",
           },
         ]}
       >
-        <Radio.Group
-          value={loginType}
-          onChange={(e) => {
-            setLoginType(e.target.value);
+          <Radio.Group
+          defaultValue={loginType} // Warning: [antd: Form.Item] `defaultValue` will not work on controlled Field. You should use `initialValues` of Form instead.
+          options={options}
+          onChange={ e => {
+            //console.log('radio3 checked', e.target.value);
+            setLoginType(e.target.value)
           }}
-        >
-          <Radio.Button value="student">Student</Radio.Button>
-          <Radio.Button value="teacher">Teacher</Radio.Button>
-          <Radio.Button value="manager">Manager</Radio.Button>
-        </Radio.Group>
+          value={loginType}
+          optionType="button"
+        />
       </Form.Item>
 
       <Form.Item
@@ -50,7 +56,8 @@ const NormalLoginForm = () => {
       >
         <Input
           prefix={<UserOutlined className="site-form-item-icon" />}
-          placeholder="Username"
+          placeholder="xxx@admin.com"
+          type = "email"
         />
       </Form.Item>
       <Form.Item

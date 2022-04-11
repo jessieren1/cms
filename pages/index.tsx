@@ -14,8 +14,6 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Course Management Assistant</h1>
-
-
         <div className={styles.login}>
           <NormalLoginForm />
         </div>
