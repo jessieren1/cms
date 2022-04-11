@@ -33,12 +33,14 @@ const NormalLoginForm = () => {
       onFinish={onFinish}
     >
       <Form.Item
-        name="radioType"
+        name="loginType"
+        initialValue={loginType}
         rules={[
           {
             required: true,
             message: "Please choose your Login Type!",
           },
+         
         ]}
       >
           <Radio.Group
