@@ -1,27 +1,24 @@
-import React from "react";
-import "antd/dist/antd.css";
-import { Form, Input, Button, Checkbox, Radio } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { useRouter } from 'next/router'
-
+import React from 'react';
+import 'antd/dist/antd.css';
+import { Form, Input, Button, Checkbox, Radio } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/router';
 
 const NormalLoginForm = () => {
-
-  const router = useRouter()
+  const router = useRouter();
 
   const onFinish = (values: any) => {
-    console.log(values)
+    console.log(values);
     // localStorage.setItem('email', values.email);
     // localStorage.setItem('password', values.password);
     // localStorage.setItem('loginType', values.loginType);
     // localStorage.setItem('remember', values.remember);
     //localStorage.setItem("form",JSON.stringify(values));
-    router.push('/dashboard')
+    router.push('/dashboard');
   };
-    
-  
 
-  const [loginType, setLoginType] = React.useState("Student");
+  const [loginType, setLoginType] = React.useState('Student');
+
   const options = [
     { label: 'Student', value: 'Student' },
     { label: 'Teacher', value: 'Teacher' },
@@ -43,16 +40,15 @@ const NormalLoginForm = () => {
         rules={[
           {
             required: true,
-            message: "Please choose your Login Type!",
+            message: 'Please choose your Login Type!',
           },
-         
         ]}
       >
-          <Radio.Group
+        <Radio.Group
           options={options}
-          onChange={ e => {
+          onChange={(e) => {
             //console.log('radio3 checked', e.target.value);
-            setLoginType(e.target.value)
+            setLoginType(e.target.value);
           }}
           value={loginType}
           optionType="button"
@@ -64,17 +60,17 @@ const NormalLoginForm = () => {
         rules={[
           {
             required: true,
-            message: "Please input your email!",
+            message: 'Please input your email!',
           },
           {
-            type:"email"
-          }
+            type: 'email',
+          },
         ]}
       >
         <Input
           prefix={<UserOutlined className="site-form-item-icon" />}
           placeholder="xxx@admin.com"
-          type = "email"
+          type="email"
         />
       </Form.Item>
       <Form.Item
@@ -82,9 +78,9 @@ const NormalLoginForm = () => {
         rules={[
           {
             required: true,
-            message: "Please input your Password!",
+            message: 'Please input your Password!',
           },
-          { min: 4, max: 16 }
+          { min: 4, max: 16 },
         ]}
       >
         <Input
@@ -104,12 +100,7 @@ const NormalLoginForm = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button
-          block
-          type="primary"
-          htmlType="submit"
-          className="login-form-button"
-        >
+        <Button block type="primary" htmlType="submit" className="login-form-button">
           Log in
         </Button>
       </Form.Item>
