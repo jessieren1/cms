@@ -5,21 +5,25 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { Row, Col } from 'antd';
 import styles from '../styles/Home.module.css';
+import CryptoJS from 'crypto-js';
 
 const NormalLoginForm = () => {
   const router = useRouter();
 
   const onFinish = (values: any) => {
-    console.log(values);
-    localStorage.setItem('email', values.email);
-    localStorage.setItem('password', values.password);
-    localStorage.setItem('loginType', values.loginType);
-    localStorage.setItem('remember', values.remember);
-    localStorage.setItem('form', JSON.stringify(values));
-    router.push('/dashboard');
+    const email = values.email;
+    const password = CryptoJS.AES.encrypt('password', values.password);
+    const role = values.role;
+    localStorage.setItem('email', email);
+    localStorage.setItem('password', password.toString());
+    localStorage.setItem('role', role);
+    router.push({
+      pathname: '/dashboard',
+      query: { email: email, password: password.toString(), role: role },
+    });
   };
 
-  const [loginType, setLoginType] = React.useState('Student');
+  const [role, setRole] = React.useState('Student');
 
   const options = [
     { label: 'Student', value: 'Student' },
@@ -43,12 +47,12 @@ const NormalLoginForm = () => {
               onFinish={onFinish}
             >
               <Form.Item
-                name="loginType"
-                initialValue={loginType}
+                name="role"
+                initialValue={role}
                 rules={[
                   {
                     required: true,
-                    message: 'Please choose your Login Type!',
+                    message: 'Please choose your role !',
                   },
                 ]}
               >
@@ -56,9 +60,9 @@ const NormalLoginForm = () => {
                   options={options}
                   onChange={(e) => {
                     //console.log('radio3 checked', e.target.value);
-                    setLoginType(e.target.value);
+                    setRole(e.target.value);
                   }}
-                  value={loginType}
+                  value={role}
                   optionType="button"
                 />
               </Form.Item>
