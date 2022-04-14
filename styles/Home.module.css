@@ -2,15 +2,6 @@
   padding: 0 2rem;
 }
 
-.main {
-  min-height: 100vh;
-  padding: 4rem 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 
 .footer {
   display: flex;
@@ -21,40 +12,14 @@
   align-items: center;
 }
 
-.title a {
-  color: #0070f3;
-  text-decoration: none;
-}
-
-.title a:hover,
-.title a:focus,
-.title a:active {
-  text-decoration: underline;
-}
-
 .title {
-  margin: 0;
+  margin: 2rem ;
   line-height: 1.15;
-  font-size: 2rem;
-}
-
-.title,
-.description {
+  font-size: 1.5rem;
   text-align: center;
 }
 
-.login {
-  padding-top: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 800px;
-}
 
-@media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
-  }
-}
+
+
+
