@@ -5,21 +5,21 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { Row, Col } from 'antd';
 import styles from '../styles/Home.module.css';
-import CryptoJS from 'crypto-js';
+import { encrypt, decrypt } from '../utils/Cryptojs';
 
 const NormalLoginForm = () => {
   const router = useRouter();
 
   const onFinish = (values: any) => {
     const email = values.email;
-    const password = CryptoJS.AES.encrypt('password', values.password);
+    const password = encrypt('password', values.password);
     const role = values.role;
     localStorage.setItem('email', email);
     localStorage.setItem('password', password.toString());
-    localStorage.setItem('role', role);
+    localStorage.setItem('role', role.toLowerCase());
     router.push({
       pathname: '/dashboard',
-      query: { email: email, password: password.toString(), role: role },
+      query: { email: email, password: password.toString(), role: role.toLowerCase() },
     });
   };
 
