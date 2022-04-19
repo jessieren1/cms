@@ -20,6 +20,26 @@
 }
 
 
+.logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
 
+.site-layout .site-layout-background {
+  background: red;
+}
+  [data-theme="dark"] .site-layout .site-layout-background {
+    background: red
+    ;
+  }
 
-
+  .out{
+    width:100px;
+     z-index:100px; 
+     position:absolute; 
+     right:20px;
+     top: 15px;
+     float:right; 
+  
+  }

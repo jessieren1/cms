@@ -1,26 +1,40 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import { Form, Input, Button, Checkbox, Radio } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, ConsoleSqlOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { Row, Col } from 'antd';
 import styles from '../styles/Home.module.css';
-import { encrypt, decrypt } from '../utils/Cryptojs';
+import Cryptojs from 'crypto-js';
+import axios from 'axios';
 
 const NormalLoginForm = () => {
   const router = useRouter();
 
   const onFinish = (values: any) => {
     const email = values.email;
-    const password = encrypt('password', values.password);
-    const role = values.role;
-    localStorage.setItem('email', email);
-    localStorage.setItem('password', password.toString());
-    localStorage.setItem('role', role.toLowerCase());
-    router.push({
-      pathname: '/dashboard',
-      query: { email: email, password: password.toString(), role: role.toLowerCase() },
-    });
+    const password = Cryptojs.AES.encrypt(values.password, 'cms').toString();
+    const role = values.role.toLowerCase();
+
+    axios
+      .post('http://cms.chtoma.com/api/login', {
+        email: email,
+        password: password,
+        role: role,
+      })
+      .then((res) => {
+        const resRole = res.data.data.role;
+        const resToken = res.data.data.token;
+        localStorage.setItem('role', resRole);
+        localStorage.setItem('token', resToken);
+
+        router.push({
+          pathname: '/dashboard/' + role,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const [role, setRole] = React.useState('Student');
@@ -32,9 +46,8 @@ const NormalLoginForm = () => {
   ];
 
   return (
-    <Row>
-      <Col xs={2} sm={4} md={6} lg={6} xl={8}></Col>
-      <Col xs={20} sm={16} md={16} lg={12} xl={8}>
+    <Row justify="center">
+      <Col md={8} sm={24}>
         <div className={styles.container}>
           <main className={styles.main}>
             <h1 className={styles.title}>Course Management Assistant</h1>
@@ -59,7 +72,6 @@ const NormalLoginForm = () => {
                 <Radio.Group
                   options={options}
                   onChange={(e) => {
-                    //console.log('radio3 checked', e.target.value);
                     setRole(e.target.value);
                   }}
                   value={role}
@@ -127,7 +139,6 @@ const NormalLoginForm = () => {
           </main>
         </div>
       </Col>
-      <Col xs={2} sm={4} md={4} lg={4} xl={6}></Col>
     </Row>
   );
 };
