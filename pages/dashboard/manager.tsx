@@ -11,11 +11,36 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
 export default function DashboardPage() {
   const [collapsed, setCollapsed] = React.useState(false);
+  const router = useRouter();
+  const token = localStorage.getItem('token');
+
+  function handleLogout() {
+    axios
+      .post(
+        'http://cms.chtoma.com/api/logout',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer  ${token}`,
+          },
+        }
+      )
+      .then(() => {
+        router.push({
+          pathname: '/',
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -50,10 +75,10 @@ export default function DashboardPage() {
         </Menu>
       </Sider>
       {/* how to access css here?? */}
-      <Layout className="site-layout">
+      <Layout className={styles.sitelayout}>
         <Header className="site-layout-background" style={{ padding: 0 }} />
         <div className={styles.out}>
-          <Button type="primary" icon={<PoweroffOutlined />}>
+          <Button type="primary" onClick={handleLogout} icon={<PoweroffOutlined />}>
             Log Out
           </Button>
         </div>
