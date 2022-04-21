@@ -1,12 +1,12 @@
 import DashboardLayout from '../../components/DashboardLayout';
 import type { NextPage } from 'next';
 
-const Manager: NextPage = () => {
+const Student: NextPage = () => {
   return (
     <DashboardLayout>
-      <h1>this is content for manager page</h1>
+      <h1>this is content for Student page</h1>
     </DashboardLayout>
   );
 };
 
-export default Manager;
+export default Student;
