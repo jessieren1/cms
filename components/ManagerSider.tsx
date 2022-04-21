@@ -10,7 +10,7 @@ import {
 const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
 
-export default function ManagerSide() {
+export default function ManagerSider() {
   return (
     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
       <Menu.Item key="1" icon={<PieChartOutlined />}>
@@ -22,7 +22,9 @@ export default function ManagerSide() {
       </Menu.Item>
 
       <SubMenu key="sub1" icon={<PieChartOutlined />} title="Students">
-        <Menu.Item key="3">Student List</Menu.Item>
+        <Menu.Item key="3">
+          <a href="/dashboard/manager/student">Student List</a>
+        </Menu.Item>
       </SubMenu>
 
       <SubMenu key="sub2" icon={<PieChartOutlined />} title="Courses">

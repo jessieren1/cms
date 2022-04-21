@@ -1,4 +1,4 @@
-import DashboardLayout from '../../components/DashboardLayout';
+import DashboardLayout from '../../../components/DashboardLayout';
 import type { NextPage } from 'next';
 import ManagerSider from 'components/ManagerSider';
 

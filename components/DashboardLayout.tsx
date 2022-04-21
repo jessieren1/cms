@@ -4,15 +4,9 @@ import styles from '../styles/Home.module.css';
 import { Layout, Menu, Breadcrumb, message } from 'antd';
 import { Button, Space } from 'antd';
 import { PoweroffOutlined } from '@ant-design/icons';
-import {
-  DesktopOutlined,
-  PieChartOutlined,
-  FileOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import AppBreadcrumb from './Breadcrumb';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -65,6 +59,7 @@ export default function DashboardPage(props: React.PropsWithChildren<any>) {
         </div>
 
         <Content style={{ margin: '0 16px' }}>
+          <AppBreadcrumb />
           <div className={styles.site_layout_background} style={{ padding: 24, minHeight: 360 }}>
             {props.center}
           </div>
