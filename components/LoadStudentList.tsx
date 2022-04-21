@@ -1,6 +1,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import { Table } from 'antd';
+import axios from 'axios';
 
 const columns = [
   {
@@ -27,9 +28,31 @@ for (let i = 0; i < 46; i++) {
   });
 }
 
-function App() {
+function LoadStudentList() {
+  //probelm 1 : how to get browser data at here?
+  //const token = localStorage.getItem('token');
+
+  axios
+    .get('http://cms.chtoma.com/api/students', {
+      params: {
+        page: 20,
+        limit: 1000,
+      },
+      headers: {
+        Authorization: `Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hbmFnZXJAYWRtaW4uY29tIiwicm9sZSI6Im1hbmFnZXIiLCJpZCI6MywiaWF0IjoxNjUwNTQ2MDQ1LCJleHAiOjE2NTgzMjIwNDV9.kOT1pkL0nNAKH_1Re34p7VVz_CKWtsZDmSAhTFGHGYY`,
+      },
+    })
+    .then((res) => {
+      //problem 2: get 200 res. however, where is the data of student list?
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
   const [selectedRowKeys, setSelectedRowKeys] = React.useState([]);
 
+  // problem 3: why TS always show red? same problem in breadcrumb
   function onSelectChange(selectedRowKeys) {
     setSelectedRowKeys({ selectedRowKeys });
   }
@@ -74,4 +97,4 @@ function App() {
   return <Table rowSelection={rowSelection} columns={columns} dataSource={data} />;
 }
 
-export default App;
+export default LoadStudentList;
