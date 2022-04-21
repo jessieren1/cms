@@ -1,12 +1,9 @@
 import DashboardLayout from '../../components/DashboardLayout';
 import type { NextPage } from 'next';
+import ManagerSider from 'components/ManagerSider';
 
 const Manager: NextPage = () => {
-  return (
-    <DashboardLayout>
-      <h1>this is content for manager page</h1>
-    </DashboardLayout>
-  );
+  return <DashboardLayout left={<ManagerSider />} center={<p>manager page</p>} />;
 };
 
 export default Manager;
