@@ -14,7 +14,7 @@ import {
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
-const { Header, Content, Sider } = Layout;
+const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 export default function DashboardPage(props: React.PropsWithChildren<any>) {
@@ -69,6 +69,13 @@ export default function DashboardPage(props: React.PropsWithChildren<any>) {
             {props.center}
           </div>
         </Content>
+        <Footer
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          Ant Design ©2018 Created by Ant UED
+        </Footer>
       </Layout>
     </Layout>
   );

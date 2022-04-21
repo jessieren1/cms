@@ -1,12 +1,9 @@
 import DashboardLayout from '../../components/DashboardLayout';
 import type { NextPage } from 'next';
+import StudentSider from 'components/StudentSider';
 
 const Student: NextPage = () => {
-  return (
-    <DashboardLayout>
-      <h1>this is content for Student page</h1>
-    </DashboardLayout>
-  );
+  return <DashboardLayout left={<StudentSider />} center={<p>Student page</p>} />;
 };
 
 export default Student;
