@@ -11,7 +11,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Component {...pageProps} />
-      <footer className={styles.footer}>2022 © cms </footer>
     </div>
   );
 }
