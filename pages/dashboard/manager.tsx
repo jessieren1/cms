@@ -75,8 +75,8 @@ export default function DashboardPage() {
         </Menu>
       </Sider>
       {/* how to access css here?? */}
-      <Layout className={styles.sitelayout}>
-        <Header className="site-layout-background" style={{ padding: 0 }} />
+      <Layout className={styles.site_layout}>
+        <Header className={styles.site_layout_background} style={{ padding: 0 }} />
         <div className={styles.out}>
           <Button type="primary" onClick={handleLogout} icon={<PoweroffOutlined />}>
             Log Out
@@ -84,7 +84,7 @@ export default function DashboardPage() {
         </div>
 
         <Content style={{ margin: '0 16px' }}>
-          <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+          <div className={styles.site_layout_background} style={{ padding: 24, minHeight: 360 }}>
             content
           </div>
         </Content>
