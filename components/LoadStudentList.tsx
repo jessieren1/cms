@@ -1,100 +1,116 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import { Table } from 'antd';
+import { Table, Switch } from 'antd';
 import axios from 'axios';
 
 const columns = [
   {
+    title: 'No.',
+    width: 100,
+    dataIndex: 'no',
+    key: 'name',
+    fixed: 'left',
+  },
+  {
     title: 'Name',
+    width: 100,
     dataIndex: 'name',
+    key: 'age',
+    fixed: 'left',
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
+    title: 'Area',
+    dataIndex: 'area',
+    key: '1',
+    width: 150,
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
+    title: 'Email',
+    dataIndex: 'email',
+    key: '2',
+    width: 150,
+  },
+  {
+    title: 'Selected Curriculum',
+    dataIndex: 'selected_curriculum',
+    key: '3',
+    width: 150,
+  },
+  {
+    title: 'Student Type',
+    dataIndex: 'student_type',
+    key: '4',
+    width: 150,
+  },
+  {
+    title: 'Join Time',
+    dataIndex: 'join_time',
+    key: '5',
+    width: 150,
+  },
+  {
+    title: 'Action',
+    key: 'operation',
+    fixed: 'right',
+    width: 100,
+    render: () => <a>action</a>,
   },
 ];
 
-const data: any = [];
-for (let i = 0; i < 46; i++) {
-  data.push({
-    key: i,
-    name: `Edward King ${i}`,
-    age: 32,
-    address: `London, Park Lane no. ${i}`,
-  });
-}
-
 function LoadStudentList() {
+  const [data, setData] = React.useState([]);
+
   //probelm 1 : how to get browser data at here?
   //const token = localStorage.getItem('token');
 
   axios
     .get('http://cms.chtoma.com/api/students', {
       params: {
-        page: 20,
-        limit: 1000,
+        page: 1,
+        limit: 200,
       },
       headers: {
         Authorization: `Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hbmFnZXJAYWRtaW4uY29tIiwicm9sZSI6Im1hbmFnZXIiLCJpZCI6MywiaWF0IjoxNjUwNTQ2MDQ1LCJleHAiOjE2NTgzMjIwNDV9.kOT1pkL0nNAKH_1Re34p7VVz_CKWtsZDmSAhTFGHGYY`,
       },
     })
+    //problem 2, too many request 429?
     .then((res) => {
-      //problem 2: get 200 res. however, where is the data of student list?
-      console.log(res);
+      setData(res.data.data.students);
     })
     .catch((error) => {
       console.log(error);
     });
 
-  const [selectedRowKeys, setSelectedRowKeys] = React.useState([]);
+  const [fixedTop, setFixedTop] = React.useState(false);
 
-  // problem 3: why TS always show red? same problem in breadcrumb
-  function onSelectChange(selectedRowKeys) {
-    setSelectedRowKeys({ selectedRowKeys });
-  }
-
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: { onSelectChange },
-    selections: [
-      Table.SELECTION_ALL,
-      Table.SELECTION_INVERT,
-      Table.SELECTION_NONE,
-      {
-        key: 'odd',
-        text: 'Select Odd Row',
-        onSelect: (changableRowKeys) => {
-          let newSelectedRowKeys = [];
-          newSelectedRowKeys = changableRowKeys.filter((key, index) => {
-            if (index % 2 !== 0) {
-              return false;
-            }
-            return true;
-          });
-          setSelectedRowKeys({ selectedRowKeys: newSelectedRowKeys });
-        },
-      },
-      {
-        key: 'even',
-        text: 'Select Even Row',
-        onSelect: (changableRowKeys) => {
-          let newSelectedRowKeys = [];
-          newSelectedRowKeys = changableRowKeys.filter((key, index) => {
-            if (index % 2 !== 0) {
-              return true;
-            }
-            return false;
-          });
-          setSelectedRowKeys({ selectedRowKeys: newSelectedRowKeys });
-        },
-      },
-    ],
-  };
-  return <Table rowSelection={rowSelection} columns={columns} dataSource={data} />;
+  return (
+    <Table
+      columns={columns}
+      dataSource={data}
+      scroll={{ x: 1500 }}
+      summary={(pageData) => (
+        <Table.Summary fixed={fixedTop ? 'top' : 'bottom'}>
+          <Table.Summary.Row>
+            <Table.Summary.Cell index={0} colSpan={2}>
+              <Switch
+                checkedChildren="Fixed Top"
+                unCheckedChildren="Fixed Top"
+                checked={fixedTop}
+                onChange={() => {
+                  setFixedTop(!fixedTop);
+                }}
+              />
+            </Table.Summary.Cell>
+            <Table.Summary.Cell index={2} colSpan={8}>
+              Scroll Context
+            </Table.Summary.Cell>
+            <Table.Summary.Cell index={10}>Fix Right</Table.Summary.Cell>
+          </Table.Summary.Row>
+        </Table.Summary>
+      )}
+      sticky
+    />
+  );
 }
 
 export default LoadStudentList;

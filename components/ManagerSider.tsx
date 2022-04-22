@@ -1,4 +1,5 @@
-import { Layout, Menu, Breadcrumb, message } from 'antd';
+import { Layout, Menu, message } from 'antd';
+import Link from 'next/link';
 import 'antd/dist/antd.css';
 import {
   DesktopOutlined,
@@ -23,7 +24,9 @@ export default function ManagerSider() {
 
       <SubMenu key="sub1" icon={<PieChartOutlined />} title="Students">
         <Menu.Item key="3">
-          <a href="/dashboard/manager/student">Student List</a>
+          <Link href="/dashboard/manager/student">
+            <a>Student List</a>
+          </Link>
         </Menu.Item>
       </SubMenu>
 
