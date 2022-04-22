@@ -1,5 +1,7 @@
 import { Menu } from 'antd';
 import 'antd/dist/antd.css';
+import Link from 'next/link';
+
 import {
   DesktopOutlined,
   PieChartOutlined,
@@ -21,7 +23,12 @@ export default function TeacherSide() {
       </Menu.Item>
 
       <SubMenu key="sub1" icon={<PieChartOutlined />} title="Students">
-        <Menu.Item key="3">Student List</Menu.Item>
+        <Menu.Item key="3">
+          {' '}
+          <Link href="/dashboard/teacher/student">
+            <a>Student List</a>
+          </Link>
+        </Menu.Item>
       </SubMenu>
 
       <SubMenu key="sub2" icon={<PieChartOutlined />} title="Courses">
