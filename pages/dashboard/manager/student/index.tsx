@@ -1,6 +1,6 @@
 import DashboardLayout from '../../../../components/DashboardLayout';
 import type { NextPage } from 'next';
-import ManagerSider from 'components/ManagerSider';
+import ManagerSider from 'components/Sider/ManagerSider';
 import LoadStudentList from 'components/LoadStudentList';
 
 const StudentList: NextPage = () => {
