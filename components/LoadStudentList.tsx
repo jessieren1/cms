@@ -3,57 +3,66 @@ import 'antd/dist/antd.css';
 import { Table, Switch } from 'antd';
 import axios from 'axios';
 
+//how to calculate time?
+//how to get type -> type.name?
+//courses ?
+// re-construct a new obj?
+const currentTime = new Date().toLocaleString(undefined, {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  hour12: false,
+  minute: '2-digit',
+  second: '2-digit',
+});
+
 const columns = [
   {
     title: 'No.',
-    width: 100,
-    dataIndex: 'no',
-    key: 'name',
+    dataIndex: 'id',
+    key: 'id',
     fixed: 'left',
   },
   {
     title: 'Name',
-    width: 100,
     dataIndex: 'name',
-    key: 'age',
-    fixed: 'left',
+    key: 'name',
   },
   {
     title: 'Area',
-    dataIndex: 'area',
-    key: '1',
-    width: 150,
+    dataIndex: 'country',
+    key: 'country',
   },
   {
     title: 'Email',
     dataIndex: 'email',
-    key: '2',
-    width: 150,
+    key: 'email',
   },
   {
     title: 'Selected Curriculum',
     dataIndex: 'selected_curriculum',
-    key: '3',
-    width: 150,
+    key: 'selected_curriculum',
   },
   {
     title: 'Student Type',
-    dataIndex: 'student_type',
-    key: '4',
-    width: 150,
+    dataIndex: 'type',
+    key: 'type',
   },
   {
     title: 'Join Time',
     dataIndex: 'join_time',
-    key: '5',
-    width: 150,
+    key: 'join_time',
   },
   {
     title: 'Action',
-    key: 'operation',
-    fixed: 'right',
-    width: 100,
-    render: () => <a>action</a>,
+    key: 'action',
+    render: () => (
+      <>
+        <a>Edit </a>
+        <a>Delete</a>
+      </>
+    ),
   },
 ];
 
@@ -63,54 +72,52 @@ function LoadStudentList() {
   //probelm 1 : how to get browser data at here?
   //const token = localStorage.getItem('token');
 
-  axios
-    .get('http://cms.chtoma.com/api/students', {
-      params: {
-        page: 1,
-        limit: 200,
-      },
-      headers: {
-        Authorization: `Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hbmFnZXJAYWRtaW4uY29tIiwicm9sZSI6Im1hbmFnZXIiLCJpZCI6MywiaWF0IjoxNjUwNTQ2MDQ1LCJleHAiOjE2NTgzMjIwNDV9.kOT1pkL0nNAKH_1Re34p7VVz_CKWtsZDmSAhTFGHGYY`,
-      },
-    })
-    //problem 2, too many request 429?
-    .then((res) => {
-      setData(res.data.data.students);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  // React.useEffect(() => {
+  //   const fetchData = async () => {
+  //     axios
+  //       .get('http://cms.chtoma.com/api/students', {
+  //         params: {
+  //           page: 1,
+  //           limit: 200,
+  //         },
+  //         headers: {
+  //           Authorization: `Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hbmFnZXJAYWRtaW4uY29tIiwicm9sZSI6Im1hbmFnZXIiLCJpZCI6MywiaWF0IjoxNjUwNTQ2MDQ1LCJleHAiOjE2NTgzMjIwNDV9.kOT1pkL0nNAKH_1Re34p7VVz_CKWtsZDmSAhTFGHGYY`,
+  //         },
+  //       })
+  //       .then((res) => {
+  //         console.log(res);
+  //         setData(res.data.data.students);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   };
+  // }, []);
 
-  const [fixedTop, setFixedTop] = React.useState(false);
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios.get('http://cms.chtoma.com/api/students', {
+        params: {
+          page: 1,
+          limit: 300,
+        },
+        headers: {
+          Authorization: `Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hbmFnZXJAYWRtaW4uY29tIiwicm9sZSI6Im1hbmFnZXIiLCJpZCI6MywiaWF0IjoxNjUwNTQ2MDQ1LCJleHAiOjE2NTgzMjIwNDV9.kOT1pkL0nNAKH_1Re34p7VVz_CKWtsZDmSAhTFGHGYY`,
+        },
+      });
+      console.log(data);
+      setData(result.data.data.students);
+    };
 
-  return (
-    <Table
-      columns={columns}
-      dataSource={data}
-      scroll={{ x: 1500 }}
-      summary={(pageData) => (
-        <Table.Summary fixed={fixedTop ? 'top' : 'bottom'}>
-          <Table.Summary.Row>
-            <Table.Summary.Cell index={0} colSpan={2}>
-              <Switch
-                checkedChildren="Fixed Top"
-                unCheckedChildren="Fixed Top"
-                checked={fixedTop}
-                onChange={() => {
-                  setFixedTop(!fixedTop);
-                }}
-              />
-            </Table.Summary.Cell>
-            <Table.Summary.Cell index={2} colSpan={8}>
-              Scroll Context
-            </Table.Summary.Cell>
-            <Table.Summary.Cell index={10}>Fix Right</Table.Summary.Cell>
-          </Table.Summary.Row>
-        </Table.Summary>
-      )}
-      sticky
-    />
-  );
+    //how to deal with error?
+    try {
+      fetchData();
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
+
+  return <Table columns={columns} dataSource={data} sticky />;
 }
 
 export default LoadStudentList;
