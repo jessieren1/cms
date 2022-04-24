@@ -1,23 +1,51 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import { Table, Switch } from 'antd';
+import { Table } from 'antd';
 import axios from 'axios';
+import { ColumnType } from 'antd/lib/table';
+import { formatDistanceToNow } from 'date-fns';
 
-//how to calculate time?
-//how to get type -> type.name?
-//courses ?
-// re-construct a new obj?
-const currentTime = new Date().toLocaleString(undefined, {
-  year: 'numeric',
-  month: '2-digit',
-  day: '2-digit',
-  hour: '2-digit',
-  hour12: false,
-  minute: '2-digit',
-  second: '2-digit',
-});
+interface RootObject {
+  data: Data;
+  code: number;
+  msg: string;
+}
 
-const columns = [
+interface Data {
+  total: number;
+  students: Student[];
+  paginator: Paginator;
+}
+
+interface Paginator {
+  page: number;
+  limit: number;
+}
+
+interface Student {
+  createdAt: string;
+  updatedAt: string;
+  id: number;
+  email: string;
+  name: string;
+  country: string;
+  profileId: number;
+  type: Type;
+  courses: Course[];
+}
+
+interface Course {
+  id: number;
+  courseId: number;
+  name: string;
+}
+
+interface Type {
+  id: number;
+  name: string;
+}
+
+const columns: ColumnType<Student>[] = [
   {
     title: 'No.',
     dataIndex: 'id',
@@ -41,18 +69,27 @@ const columns = [
   },
   {
     title: 'Selected Curriculum',
-    dataIndex: 'selected_curriculum',
-    key: 'selected_curriculum',
+    dataIndex: 'courses',
+    key: 'courses',
+    render(value: Course[]) {
+      return value.map((item) => item.name).join(',');
+    },
   },
   {
     title: 'Student Type',
     dataIndex: 'type',
     key: 'type',
+    render(value: Type) {
+      return value.name;
+    },
   },
   {
     title: 'Join Time',
-    dataIndex: 'join_time',
-    key: 'join_time',
+    dataIndex: 'createdAt',
+    key: 'createdAt',
+    render(value) {
+      return formatDistanceToNow(new Date(value));
+    },
   },
   {
     title: 'Action',
@@ -67,54 +104,26 @@ const columns = [
 ];
 
 function LoadStudentList() {
-  const [data, setData] = React.useState([]);
-
-  //probelm 1 : how to get browser data at here?
-  //const token = localStorage.getItem('token');
-
-  // React.useEffect(() => {
-  //   const fetchData = async () => {
-  //     axios
-  //       .get('http://cms.chtoma.com/api/students', {
-  //         params: {
-  //           page: 1,
-  //           limit: 200,
-  //         },
-  //         headers: {
-  //           Authorization: `Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hbmFnZXJAYWRtaW4uY29tIiwicm9sZSI6Im1hbmFnZXIiLCJpZCI6MywiaWF0IjoxNjUwNTQ2MDQ1LCJleHAiOjE2NTgzMjIwNDV9.kOT1pkL0nNAKH_1Re34p7VVz_CKWtsZDmSAhTFGHGYY`,
-  //         },
-  //       })
-  //       .then((res) => {
-  //         console.log(res);
-  //         setData(res.data.data.students);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   };
-  // }, []);
+  const [data, setData] = React.useState<Student[]>([]);
 
   React.useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios.get('http://cms.chtoma.com/api/students', {
+    axios
+      .get('http://cms.chtoma.com/api/students', {
         params: {
           page: 1,
-          limit: 300,
+          limit: 200,
         },
         headers: {
-          Authorization: `Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hbmFnZXJAYWRtaW4uY29tIiwicm9sZSI6Im1hbmFnZXIiLCJpZCI6MywiaWF0IjoxNjUwNTQ2MDQ1LCJleHAiOjE2NTgzMjIwNDV9.kOT1pkL0nNAKH_1Re34p7VVz_CKWtsZDmSAhTFGHGYY`,
+          Authorization: `Bearer  ${localStorage.getItem('token')}`,
         },
+      })
+      .then((res) => {
+        console.log(res);
+        setData(res.data.data.students);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-      console.log(data);
-      setData(result.data.data.students);
-    };
-
-    //how to deal with error?
-    try {
-      fetchData();
-    } catch (e) {
-      console.log(e);
-    }
   }, []);
 
   return <Table columns={columns} dataSource={data} sticky />;
