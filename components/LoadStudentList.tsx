@@ -1,26 +1,20 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import { Table } from 'antd';
+import { Table, Button, Input } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { ColumnType } from 'antd/lib/table';
 import { formatDistanceToNow } from 'date-fns';
+import styled from 'styled-components';
 
-interface RootObject {
-  data: Data;
-  code: number;
-  msg: string;
-}
+const { Search } = Input;
 
-interface Data {
-  total: number;
-  students: Student[];
-  paginator: Paginator;
-}
-
-interface Paginator {
-  page: number;
-  limit: number;
-}
+const FlexContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+`;
 
 interface Student {
   createdAt: string;
@@ -48,9 +42,12 @@ interface Type {
 const columns: ColumnType<Student>[] = [
   {
     title: 'No.',
-    dataIndex: 'id',
-    key: 'id',
+    dataIndex: 'No.',
+    key: 'No.',
     fixed: 'left',
+    render(_1: any, _2: any, index: number) {
+      return index + 1;
+    },
   },
   {
     title: 'Name',
@@ -126,7 +123,17 @@ function LoadStudentList() {
       });
   }, []);
 
-  return <Table columns={columns} dataSource={data} sticky />;
+  return (
+    <>
+      <FlexContainer>
+        <Button type="primary" icon={<PlusOutlined />}>
+          Add
+        </Button>
+        <Search placeholder="input search text" allowClear enterButton="Search" size="large" />
+      </FlexContainer>
+      <Table columns={columns} dataSource={data} sticky />
+    </>
+  );
 }
 
 export default LoadStudentList;

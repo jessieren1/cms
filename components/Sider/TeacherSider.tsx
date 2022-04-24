@@ -15,7 +15,9 @@ export default function TeacherSide() {
   return (
     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
       <Menu.Item key="1" icon={<PieChartOutlined />}>
-        Overview
+        <Link href="/dashboard/teacher">
+          <a>Overview</a>
+        </Link>
       </Menu.Item>
 
       <Menu.Item key="2" icon={<PieChartOutlined />}>
