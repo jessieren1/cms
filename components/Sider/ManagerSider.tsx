@@ -1,14 +1,7 @@
-import { Layout, Menu, message } from 'antd';
+import { Menu } from 'antd';
 import Link from 'next/link';
 import 'antd/dist/antd.css';
-import {
-  DesktopOutlined,
-  PieChartOutlined,
-  FileOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
-const { Header, Content, Sider } = Layout;
+import { PieChartOutlined, FileOutlined } from '@ant-design/icons';
 const { SubMenu } = Menu;
 
 export default function ManagerSider() {

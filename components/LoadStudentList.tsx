@@ -1,6 +1,6 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import { Table, Button, Input } from 'antd';
+import { Table, Button, Input, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { ColumnType } from 'antd/lib/table';
@@ -115,7 +115,6 @@ function LoadStudentList() {
         },
       })
       .then((res) => {
-        console.log(res);
         setData(res.data.data.students);
       })
       .catch((error) => {
@@ -129,7 +128,9 @@ function LoadStudentList() {
         <Button type="primary" icon={<PlusOutlined />}>
           Add
         </Button>
-        <Search placeholder="input search text" allowClear enterButton="Search" size="large" />
+        <Space direction="vertical">
+          <Search placeholder="search by name" style={{ width: 200 }} />
+        </Space>
       </FlexContainer>
       <Table columns={columns} dataSource={data} sticky />
     </>

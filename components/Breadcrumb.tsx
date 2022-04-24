@@ -16,7 +16,5 @@ export default function AppBreadcrumb() {
     };
   });
 
-  console.log(routes);
-
   return <PageHeader className="site-page-header" breadcrumb={{ routes }} />;
 }
