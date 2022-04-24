@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'antd/dist/antd.css';
 import { Table, Button, Input, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
@@ -101,26 +101,36 @@ const columns: ColumnType<Student>[] = [
 ];
 
 function LoadStudentList() {
-  const [data, setData] = React.useState<Student[]>([]);
+  const [data, setData] = useState<Student[]>([]);
+  const [paginator, SetPaginator] = useState({ page: 1, limit: 20 });
+  const [queryName, setQueryName] = useState('');
 
   React.useEffect(() => {
+    let params: Record<string, string | number> = { ...paginator };
+    if (queryName) {
+      params = { ...params, query: queryName };
+    }
+
     axios
       .get('http://cms.chtoma.com/api/students', {
-        params: {
-          page: 1,
-          limit: 200,
-        },
+        params: params,
         headers: {
           Authorization: `Bearer  ${localStorage.getItem('token')}`,
         },
       })
       .then((res) => {
-        setData(res.data.data.students);
+        if (res.data) {
+          setData(res.data.data.students);
+        }
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [paginator, queryName]);
+
+  function onSearch(value: any) {
+    setQueryName(value);
+  }
 
   return (
     <>
@@ -129,7 +139,7 @@ function LoadStudentList() {
           Add
         </Button>
         <Space direction="vertical">
-          <Search placeholder="search by name" style={{ width: 200 }} />
+          <Search onSearch={onSearch} placeholder="search by name" style={{ width: 200 }} />
         </Space>
       </FlexContainer>
       <Table columns={columns} dataSource={data} sticky />
