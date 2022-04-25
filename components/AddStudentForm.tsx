@@ -1,13 +1,12 @@
-import { Select, Form, Input } from 'antd';
+import { Select, Form, Input, Button } from 'antd';
 
 export function AddStudentForm(props: any) {
-  const { form, handleSubmit } = props;
+  const { handleCancel, handleSubmit } = props;
   return (
     <Form
       labelCol={{ span: 6 }}
       wrapperCol={{ span: 12 }}
       layout="horizontal"
-      form={form}
       onFinish={handleSubmit}
     >
       <Form.Item name="name" label="Name" rules={[{ required: true }]}>
@@ -32,6 +31,15 @@ export function AddStudentForm(props: any) {
           <Select.Option value="tester">Tester</Select.Option>
           <Select.Option value="developer">Developer</Select.Option>
         </Select>
+      </Form.Item>
+
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+        <Button htmlType="button" onClick={handleCancel}>
+          Cancel
+        </Button>
       </Form.Item>
     </Form>
   );
