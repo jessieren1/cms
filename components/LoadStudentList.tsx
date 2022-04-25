@@ -231,7 +231,7 @@ function LoadStudentList() {
       <Modal
         title="Add Student"
         visible={isModalVisible}
-        onOk={form.submit}
+        footer={null}
         onCancel={() => {
           setIsModalVisible(false);
         }}
@@ -240,7 +240,6 @@ function LoadStudentList() {
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 12 }}
           layout="horizontal"
-          form={form}
           onFinish={handleSubmit}
         >
           <Form.Item name="name" label="Name" rules={[{ required: true }]}>
@@ -265,6 +264,20 @@ function LoadStudentList() {
               <Select.Option value="tester">Tester</Select.Option>
               <Select.Option value="developer">Developer</Select.Option>
             </Select>
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+            <Button
+              htmlType="button"
+              onClick={() => {
+                setIsModalVisible(false);
+              }}
+            >
+              Cancel
+            </Button>
           </Form.Item>
         </Form>
       </Modal>
