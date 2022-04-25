@@ -6,6 +6,7 @@ import axios from 'axios';
 import { ColumnType } from 'antd/lib/table';
 import { formatDistanceToNow } from 'date-fns';
 import styled from 'styled-components';
+import Link from 'next/link';
 
 const { Search } = Input;
 
@@ -42,8 +43,7 @@ interface Type {
 const columns: ColumnType<Student>[] = [
   {
     title: 'No.',
-    dataIndex: 'No.',
-    key: 'No.',
+    key: 'index',
     fixed: 'left',
     render(_1: any, _2: any, index: number) {
       return index + 1;
@@ -53,11 +53,23 @@ const columns: ColumnType<Student>[] = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
+    sorter: (pre: Student, next: Student) => {
+      const preCode = pre.name.charCodeAt(0);
+      const nextCode = next.name.charCodeAt(0);
+      return preCode > nextCode ? 1 : preCode === nextCode ? 0 : -1;
+    },
+    render: (_, record: Student) => (
+      <Link href={`/dashboard/manager/student/${record.id}`}>{record.name}</Link>
+    ),
   },
   {
     title: 'Area',
+    width: '10%',
     dataIndex: 'country',
-    key: 'country',
+    filters: ['China', 'New Zealand', 'Canada', 'Australia'].map((item) => ({
+      text: item,
+      value: item,
+    })),
   },
   {
     title: 'Email',
@@ -67,7 +79,7 @@ const columns: ColumnType<Student>[] = [
   {
     title: 'Selected Curriculum',
     dataIndex: 'courses',
-    key: 'courses',
+    width: '25%',
     render(value: Course[]) {
       return value.map((item) => item.name).join(',');
     },
@@ -75,7 +87,10 @@ const columns: ColumnType<Student>[] = [
   {
     title: 'Student Type',
     dataIndex: 'type',
-    key: 'type',
+    filters: [
+      { text: 'developer', value: 'developer' },
+      { text: 'tester', value: 'tester' },
+    ],
     render(value: Type) {
       return value.name;
     },
@@ -84,9 +99,7 @@ const columns: ColumnType<Student>[] = [
     title: 'Join Time',
     dataIndex: 'createdAt',
     key: 'createdAt',
-    render(value) {
-      return formatDistanceToNow(new Date(value));
-    },
+    render: (value: string) => formatDistanceToNow(new Date(value), { addSuffix: true }),
   },
   {
     title: 'Action',
@@ -102,8 +115,9 @@ const columns: ColumnType<Student>[] = [
 
 function LoadStudentList() {
   const [data, setData] = useState<Student[]>([]);
-  const [paginator, SetPaginator] = useState({ page: 1, limit: 20 });
+  const [paginator, setPaginator] = useState({ page: 1, limit: 20 });
   const [queryName, setQueryName] = useState('');
+  const [total, setTotal] = useState(0);
 
   React.useEffect(() => {
     let params: Record<string, string | number> = { ...paginator };
@@ -121,16 +135,13 @@ function LoadStudentList() {
       .then((res) => {
         if (res.data) {
           setData(res.data.data.students);
+          setTotal(res.data.data.total);
         }
       })
       .catch((error) => {
         console.log(error);
       });
   }, [paginator, queryName]);
-
-  function onSearch(value: any) {
-    setQueryName(value);
-  }
 
   return (
     <>
@@ -139,10 +150,24 @@ function LoadStudentList() {
           Add
         </Button>
         <Space direction="vertical">
-          <Search onSearch={onSearch} placeholder="search by name" style={{ width: 200 }} />
+          <Search
+            onSearch={(value: any) => setQueryName(value)}
+            placeholder="search by name"
+            style={{ width: 200 }}
+          />
         </Space>
       </FlexContainer>
-      <Table columns={columns} dataSource={data} sticky />
+      <Table
+        rowKey={(record) => record.id}
+        columns={columns}
+        dataSource={data}
+        sticky
+        pagination={{
+          defaultPageSize: 20,
+          onChange: (page: number, limit: number) => setPaginator({ page, limit }),
+          total,
+        }}
+      />
     </>
   );
 }
