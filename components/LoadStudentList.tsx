@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'antd/dist/antd.css';
-import { Select, Form, Modal, Table, Button, Input, Space } from 'antd';
+import { Popconfirm, Select, Form, Modal, Table, Button, Input, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { ColumnType } from 'antd/lib/table';
@@ -148,7 +148,36 @@ function LoadStudentList() {
           >
             Edit
           </a>
-          <a>Delete</a>
+          <Popconfirm
+            title="Are you sure to delete?"
+            onConfirm={() => {
+              axios
+                .delete(`http://cms.chtoma.com/api/students/${record.id}`, {
+                  headers: {
+                    Authorization: `Bearer  ${localStorage.getItem('token')}`,
+                  },
+                })
+                .then((res) => {
+                  const { data: isDeleted } = res;
+
+                  if (isDeleted) {
+                    const index = data.findIndex((item) => item.id === record.id);
+                    const updatedData = [...data];
+
+                    updatedData.splice(index, 1);
+                    setData(updatedData);
+                    setTotal(total - 1);
+                  }
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            }}
+            okText="Confirm"
+            cancelText="Cancel"
+          >
+            <a> Delete</a>
+          </Popconfirm>
         </>
       ),
     },
