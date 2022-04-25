@@ -40,79 +40,6 @@ interface Type {
   name: string;
 }
 
-const columns: ColumnType<Student>[] = [
-  {
-    title: 'No.',
-    key: 'index',
-    fixed: 'left',
-    render(_1: any, _2: any, index: number) {
-      return index + 1;
-    },
-  },
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    sorter: (pre: Student, next: Student) => {
-      const preCode = pre.name.charCodeAt(0);
-      const nextCode = next.name.charCodeAt(0);
-      return preCode > nextCode ? 1 : preCode === nextCode ? 0 : -1;
-    },
-    render: (_, record: Student) => (
-      <Link href={`/dashboard/manager/student/${record.id}`}>{record.name}</Link>
-    ),
-  },
-  {
-    title: 'Area',
-    width: '10%',
-    dataIndex: 'country',
-    filters: ['China', 'New Zealand', 'Canada', 'Australia'].map((item) => ({
-      text: item,
-      value: item,
-    })),
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email',
-    key: 'email',
-  },
-  {
-    title: 'Selected Curriculum',
-    dataIndex: 'courses',
-    width: '25%',
-    render(value: Course[]) {
-      return value.map((item) => item.name).join(',');
-    },
-  },
-  {
-    title: 'Student Type',
-    dataIndex: 'type',
-    filters: [
-      { text: 'developer', value: 'developer' },
-      { text: 'tester', value: 'tester' },
-    ],
-    render(value: Type) {
-      return value.name;
-    },
-  },
-  {
-    title: 'Join Time',
-    dataIndex: 'createdAt',
-    key: 'createdAt',
-    render: (value: string) => formatDistanceToNow(new Date(value), { addSuffix: true }),
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: () => (
-      <>
-        <a>Edit </a>
-        <a>Delete</a>
-      </>
-    ),
-  },
-];
-
 function LoadStudentList() {
   const [data, setData] = useState<Student[]>([]);
   const [paginator, setPaginator] = useState({ page: 1, limit: 20 });
@@ -121,10 +48,6 @@ function LoadStudentList() {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
 
   const handleSubmit = (e: any) => {
     setIsModalVisible(false);
@@ -152,9 +75,84 @@ function LoadStudentList() {
       });
   };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+  const columns: ColumnType<Student>[] = [
+    {
+      title: 'No.',
+      key: 'index',
+      fixed: 'left',
+      render(_1: any, _2: any, index: number) {
+        return index + 1;
+      },
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      sorter: (pre: Student, next: Student) => {
+        const preCode = pre.name.charCodeAt(0);
+        const nextCode = next.name.charCodeAt(0);
+        return preCode > nextCode ? 1 : preCode === nextCode ? 0 : -1;
+      },
+      render: (_, record: Student) => (
+        <Link href={`/dashboard/manager/student/${record.id}`}>{record.name}</Link>
+      ),
+    },
+    {
+      title: 'Area',
+      width: '10%',
+      dataIndex: 'country',
+      filters: ['China', 'New Zealand', 'Canada', 'Australia'].map((item) => ({
+        text: item,
+        value: item,
+      })),
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: 'Selected Curriculum',
+      dataIndex: 'courses',
+      width: '25%',
+      render(value: Course[]) {
+        return value.map((item) => item.name).join(',');
+      },
+    },
+    {
+      title: 'Student Type',
+      dataIndex: 'type',
+      filters: [
+        { text: 'developer', value: 'developer' },
+        { text: 'tester', value: 'tester' },
+      ],
+      render(value: Type) {
+        return value.name;
+      },
+    },
+    {
+      title: 'Join Time',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: (value: string) => formatDistanceToNow(new Date(value), { addSuffix: true }),
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record: Student) => (
+        <>
+          <a
+            onClick={() => {
+              setIsModalVisible(true);
+            }}
+          >
+            Edit
+          </a>
+          <a>Delete</a>
+        </>
+      ),
+    },
+  ];
 
   React.useEffect(() => {
     let params: Record<string, string | number> = { ...paginator };
@@ -183,7 +181,13 @@ function LoadStudentList() {
   return (
     <>
       <FlexContainer>
-        <Button type="primary" icon={<PlusOutlined />} onClick={showModal}>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => {
+            setIsModalVisible(true);
+          }}
+        >
           Add
         </Button>
         <Space direction="vertical">
@@ -199,7 +203,9 @@ function LoadStudentList() {
         title="Add Student"
         visible={isModalVisible}
         onOk={form.submit}
-        onCancel={handleCancel}
+        onCancel={() => {
+          setIsModalVisible(false);
+        }}
       >
         <Form
           labelCol={{ span: 6 }}
