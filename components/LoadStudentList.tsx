@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'antd/dist/antd.css';
-import { Table, Button, Input, Space } from 'antd';
+import { Select, Form, Modal, Table, Button, Input, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { ColumnType } from 'antd/lib/table';
@@ -119,6 +119,43 @@ function LoadStudentList() {
   const [queryName, setQueryName] = useState('');
   const [total, setTotal] = useState(0);
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [form] = Form.useForm();
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleSubmit = (e: any) => {
+    setIsModalVisible(false);
+    console.log(e);
+    axios
+      .post(
+        'http://cms.chtoma.com/api/students',
+        {
+          name: e.name,
+          country: e.country,
+          email: e.email,
+          type: e.type === 'tester' ? 1 : 2,
+        },
+        {
+          headers: {
+            Authorization: `Bearer  ${localStorage.getItem('token')}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data.msg);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   React.useEffect(() => {
     let params: Record<string, string | number> = { ...paginator };
     if (queryName) {
@@ -146,7 +183,7 @@ function LoadStudentList() {
   return (
     <>
       <FlexContainer>
-        <Button type="primary" icon={<PlusOutlined />}>
+        <Button type="primary" icon={<PlusOutlined />} onClick={showModal}>
           Add
         </Button>
         <Space direction="vertical">
@@ -157,6 +194,46 @@ function LoadStudentList() {
           />
         </Space>
       </FlexContainer>
+
+      <Modal
+        title="Add Student"
+        visible={isModalVisible}
+        onOk={form.submit}
+        onCancel={handleCancel}
+      >
+        <Form
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 12 }}
+          layout="horizontal"
+          form={form}
+          onFinish={handleSubmit}
+        >
+          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+
+          <Form.Item name="email" label="Email" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+
+          <Form.Item name="country" label="Area" rules={[{ required: true }]}>
+            <Select allowClear>
+              <Select.Option value="china">China</Select.Option>
+              <Select.Option value="new_zealand">New Zealand</Select.Option>
+              <Select.Option value="canada">Canada</Select.Option>
+              <Select.Option value="australia">Australia</Select.Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item name="type" label="Student Type" rules={[{ required: true }]}>
+            <Select allowClear>
+              <Select.Option value="tester">Tester</Select.Option>
+              <Select.Option value="developer">Developer</Select.Option>
+            </Select>
+          </Form.Item>
+        </Form>
+      </Modal>
+
       <Table
         rowKey={(record) => record.id}
         columns={columns}
