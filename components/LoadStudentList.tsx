@@ -48,29 +48,38 @@ function LoadStudentList() {
   const [total, setTotal] = useState(0);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [editingStudent, setEditingStudent] = useState<Student>(null);
 
   const handleCancel = () => {
     setIsModalVisible(false);
+    setEditingStudent(null);
   };
 
   const handleSubmit = (e: any) => {
+    const param =
+      editingStudent === null
+        ? {
+            name: e.name,
+            country: e.country,
+            email: e.email,
+            type: e.type === 'tester' ? 1 : 2,
+          }
+        : {
+            name: e.name,
+            country: e.country,
+            email: e.email,
+            type: e.type === 'tester' ? 1 : 2,
+            id: editingStudent.id,
+          };
+
     setIsModalVisible(false);
     console.log(e);
     axios
-      .post(
-        'http://cms.chtoma.com/api/students',
-        {
-          name: e.name,
-          country: e.country,
-          email: e.email,
-          type: e.type === 'tester' ? 1 : 2,
+      .post('http://cms.chtoma.com/api/students', param, {
+        headers: {
+          Authorization: `Bearer  ${localStorage.getItem('token')}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer  ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      })
       .then((res) => {
         console.log(res.data.msg);
       })
@@ -148,6 +157,7 @@ function LoadStudentList() {
           <a
             onClick={() => {
               setIsModalVisible(true);
+              setEditingStudent(record);
             }}
           >
             Edit
@@ -219,6 +229,7 @@ function LoadStudentList() {
           icon={<PlusOutlined />}
           onClick={() => {
             setIsModalVisible(true);
+            setEditingStudent(null);
           }}
         >
           Add
@@ -232,7 +243,12 @@ function LoadStudentList() {
         </Space>
       </FlexContainer>
 
-      <Modal title="Add Student" visible={isModalVisible} footer={null} onCancel={handleCancel}>
+      <Modal
+        title={editingStudent === null ? 'Add Student' : 'Edit Student'}
+        visible={isModalVisible}
+        footer={null}
+        onCancel={handleCancel}
+      >
         <AddStudentForm handleCancel={handleCancel} handleSubmit={handleSubmit} />
       </Modal>
 
