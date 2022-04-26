@@ -56,26 +56,22 @@ function LoadStudentList() {
   };
 
   const handleSubmit = (e: any) => {
-    const param =
-      editingStudent === null
-        ? {
-            name: e.name,
-            country: e.country,
-            email: e.email,
-            type: e.type === 'tester' ? 1 : 2,
-          }
-        : {
-            name: e.name,
-            country: e.country,
-            email: e.email,
-            type: e.type === 'tester' ? 1 : 2,
-            id: editingStudent.id,
-          };
+    let param = {
+      name: e.name,
+      country: e.country,
+      email: e.email,
+      type: e.type === 'tester' ? 1 : 2,
+      id: null,
+    };
+
+    if (editingStudent !== null) {
+      param = { ...param, id: editingStudent.id };
+    }
 
     setIsModalVisible(false);
     console.log(e);
     axios
-      .post('http://cms.chtoma.com/api/students', param, {
+      .put('http://cms.chtoma.com/api/students', param, {
         headers: {
           Authorization: `Bearer  ${localStorage.getItem('token')}`,
         },
