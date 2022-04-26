@@ -1,13 +1,24 @@
 import { Select, Form, Input, Button } from 'antd';
+import { initial } from 'lodash';
 
 export function AddStudentForm(props: any) {
-  const { handleCancel, handleSubmit } = props;
+  const { editingStudent, handleCancel, handleSubmit } = props;
+  const initialFormValues =
+    editingStudent === null
+      ? {}
+      : {
+          name: editingStudent.name,
+          country: editingStudent.country,
+          email: editingStudent.email,
+          type: editingStudent.type === 1 ? 'Tester' : 'Developer',
+        };
   return (
     <Form
       labelCol={{ span: 6 }}
       wrapperCol={{ span: 12 }}
       layout="horizontal"
       onFinish={handleSubmit}
+      initialValues={initialFormValues}
     >
       <Form.Item name="name" label="Name" rules={[{ required: true }]}>
         <Input />
