@@ -41,6 +41,14 @@ interface Type {
   name: string;
 }
 
+interface Params {
+  id: number | null;
+  email: string;
+  name: string;
+  country: string;
+  type: number;
+}
+
 function LoadStudentList() {
   const [data, setData] = useState<Student[]>([]);
   const [paginator, setPaginator] = useState({ page: 1, limit: 20 });
@@ -56,7 +64,7 @@ function LoadStudentList() {
   };
 
   const handleSubmit = (e: any) => {
-    let param = {
+    let param: Params = {
       name: e.name,
       country: e.country,
       email: e.email,
