@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'antd/dist/antd.css';
-import { Popconfirm, Select, Form, Modal, Table, Button, Input, Space } from 'antd';
+import { Popconfirm, Modal, Table, Button, Input, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { ColumnType } from 'antd/lib/table';
@@ -48,7 +48,7 @@ function LoadStudentList() {
   const [total, setTotal] = useState(0);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [editingStudent, setEditingStudent] = useState<Student>(null);
+  const [editingStudent, setEditingStudent] = useState<Student | null>(null);
 
   const handleCancel = () => {
     setIsModalVisible(false);
