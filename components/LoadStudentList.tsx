@@ -248,8 +248,13 @@ function LoadStudentList() {
         visible={isModalVisible}
         footer={null}
         onCancel={handleCancel}
+        destroyOnClose={true}
       >
-        <AddStudentForm handleCancel={handleCancel} handleSubmit={handleSubmit} />
+        <AddStudentForm
+          editingStudent={editingStudent}
+          handleCancel={handleCancel}
+          handleSubmit={handleSubmit}
+        />
       </Modal>
 
       <Table
