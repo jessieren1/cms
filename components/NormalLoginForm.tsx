@@ -1,39 +1,38 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import { Form, Input, Button, Checkbox, Radio } from 'antd';
-import { UserOutlined, LockOutlined, ConsoleSqlOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Checkbox, Radio, message, Row, Col } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
-import { Row, Col } from 'antd';
 import styles from '../styles/Home.module.css';
 import Cryptojs from 'crypto-js';
-import axios from 'axios';
+import { apiService } from 'lib/services/api-service';
 
 const NormalLoginForm = () => {
   const router = useRouter();
 
   const onFinish = (values: any) => {
-    const email = values.email;
-    const password = Cryptojs.AES.encrypt(values.password, 'cms').toString();
-    const role = values.role.toLowerCase();
+    const params = {
+      email: values.email,
+      password: Cryptojs.AES.encrypt(values.password, 'cms').toString(),
+      role: values.role.toLowerCase(),
+    };
 
-    axios
-      .post('http://cms.chtoma.com/api/login', {
-        email: email,
-        password: password,
-        role: role,
-      })
+    apiService
+      .login(params)
       .then((res) => {
-        const resRole = res.data.data.role;
-        const resToken = res.data.data.token;
+        const resRole = res.data.role;
+        const resToken = res.data.token;
         localStorage.setItem('role', resRole);
         localStorage.setItem('token', resToken);
 
         router.push({
-          pathname: '/dashboard/' + role,
+          pathname: '/dashboard/' + values.role.toLowerCase(),
         });
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        message.error(err); //don't show message, why?
+        //alert(err);
+        console.log('error is ->' + err);
       });
   };
 

@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import 'antd/dist/antd.css';
 import { Popconfirm, Modal, Table, Button, Input, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import axios from 'axios';
 import { ColumnType } from 'antd/lib/table';
 import { formatDistanceToNow } from 'date-fns';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { AddStudentForm } from './AddStudentForm';
+import { apiService } from 'lib/services/api-service';
 
 const { Search } = Input;
 
@@ -64,7 +64,7 @@ function LoadStudentList() {
   };
 
   const handleSubmit = (e: any) => {
-    let param: Params = {
+    let params: Params = {
       name: e.name,
       country: e.country,
       email: e.email,
@@ -73,23 +73,27 @@ function LoadStudentList() {
     };
 
     if (editingStudent !== null) {
-      param = { ...param, id: editingStudent.id };
+      params = { ...params, id: editingStudent.id };
+      apiService
+        .editStudent(params)
+        .then((res) => {
+          console.log(res.data.msg);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      apiService
+        .addStudent(params)
+        .then((res) => {
+          console.log(res.data.msg);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
 
     setIsModalVisible(false);
-    console.log(e);
-    axios
-      .put('http://cms.chtoma.com/api/students', param, {
-        headers: {
-          Authorization: `Bearer  ${localStorage.getItem('token')}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data.msg);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
   const columns: ColumnType<Student>[] = [
@@ -169,12 +173,8 @@ function LoadStudentList() {
           <Popconfirm
             title="Are you sure to delete?"
             onConfirm={() => {
-              axios
-                .delete(`http://cms.chtoma.com/api/students/${record.id}`, {
-                  headers: {
-                    Authorization: `Bearer  ${localStorage.getItem('token')}`,
-                  },
-                })
+              apiService
+                .deleteStudent(record.id)
                 .then((res) => {
                   const { data: isDeleted } = res;
 
@@ -206,22 +206,16 @@ function LoadStudentList() {
     if (queryName) {
       params = { ...params, query: queryName };
     }
-
-    axios
-      .get('http://cms.chtoma.com/api/students', {
-        params: params,
-        headers: {
-          Authorization: `Bearer  ${localStorage.getItem('token')}`,
-        },
-      })
+    apiService
+      .getStudents(params)
       .then((res) => {
         if (res.data) {
-          setData(res.data.data.students);
-          setTotal(res.data.data.total);
+          setData(res.data.students);
+          setTotal(res.data.total);
         }
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
       });
   }, [paginator, queryName]);
 

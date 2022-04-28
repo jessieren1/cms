@@ -4,9 +4,9 @@ import styles from '../styles/Home.module.css';
 import { Layout, Menu, Breadcrumb, message } from 'antd';
 import { Button, Space } from 'antd';
 import { PoweroffOutlined } from '@ant-design/icons';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import AppBreadcrumb from './Breadcrumb';
+import { apiService } from 'lib/services/api-service';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -16,25 +16,13 @@ export default function DashboardPage(props: React.PropsWithChildren<any>) {
   const router = useRouter();
 
   function handleLogout() {
-    const token = localStorage.getItem('token');
-    axios
-      .post(
-        'http://cms.chtoma.com/api/logout',
-        {},
-        {
-          headers: {
-            Authorization: `Bearer  ${token}`,
-          },
-        }
-      )
+    apiService
+      .logout()
       .then(() => {
-        router.push({
-          pathname: '/',
-        });
+        router.push('/');
       })
-      .catch((error) => {
-        console.log(error);
-        message.error('Unknown Error');
+      .catch((err) => {
+        console.log(err);
       });
   }
 
