@@ -30,7 +30,7 @@ const NormalLoginForm = () => {
         });
       })
       .catch((err) => {
-        message.error(err); //don't show message, why?
+        message.error('this is error'); //don't show message, why?
         //alert(err);
         console.log('error is ->' + err);
       });
