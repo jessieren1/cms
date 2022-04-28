@@ -10,9 +10,14 @@ const instance = axios.create({
 
 const responseBody = (response: AxiosResponse) => response.data;
 
-const  header = {headers: {
-  Authorization: `Bearer  ${localStorage.getItem('token')}`,
-}}
+
+let header ={} ;
+if (typeof window !== 'undefined') {
+  header = {headers: {
+    Authorization: `Bearer  ${localStorage.getItem('token')}`
+  }}
+}
+
 
 const req = {
 	get: (url: string,body:{}) => instance.get(url,body).then(responseBody),
