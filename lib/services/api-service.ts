@@ -33,10 +33,10 @@ if (typeof window !== 'undefined') {
 
 
 const req = {
-	get: (url: string,body:{}) => instance.get(url,body).then(responseBody),
+	get: (url: string,body:{}) => instance.get(url,body).then(responseBody).catch(),
 	post: (url: string, body: {}, header:{}) => instance.post(url, body,header).then(responseBody).catch(),
-	put: (url: string, body: {}, header:{}) => instance.put(url, body,header).then(responseBody),
-	delete: (url: string,header:{}) => instance.delete(url,header).then(responseBody),
+	put: (url: string, body: {}, header:{}) => instance.put(url, body,header).then(responseBody).catch(),
+	delete: (url: string,header:{}) => instance.delete(url,header).then(responseBody).catch(),
 };
 
 

@@ -29,11 +29,7 @@ const NormalLoginForm = () => {
           pathname: '/dashboard/' + values.role.toLowerCase(),
         });
       })
-      .catch((err) => {
-        message.error('this is error'); //don't show message, why?
-        //alert(err);
-        console.log('error is ->' + err);
-      });
+      .catch(message.error('error'));
   };
 
   const [role, setRole] = React.useState('Student');

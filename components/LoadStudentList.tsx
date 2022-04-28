@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'antd/dist/antd.css';
-import { Popconfirm, Modal, Table, Button, Input, Space } from 'antd';
+import { Popconfirm, Modal, Table, Button, Input, Space, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { ColumnType } from 'antd/lib/table';
 import { formatDistanceToNow } from 'date-fns';
@@ -79,18 +79,14 @@ function LoadStudentList() {
         .then((res) => {
           console.log(res.data.msg);
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch(message.error('error'));
     } else {
       apiService
         .addStudent(params)
         .then((res) => {
           console.log(res.data.msg);
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch(message.error('error'));
     }
 
     setIsModalVisible(false);
@@ -187,9 +183,7 @@ function LoadStudentList() {
                     setTotal(total - 1);
                   }
                 })
-                .catch((error) => {
-                  console.log(error);
-                });
+                .catch(message.error('error'));
             }}
             okText="Confirm"
             cancelText="Cancel"
@@ -214,9 +208,7 @@ function LoadStudentList() {
           setTotal(res.data.total);
         }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(message.error('error'));
   }, [paginator, queryName]);
 
   return (

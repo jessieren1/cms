@@ -21,9 +21,7 @@ export default function DashboardPage(props: React.PropsWithChildren<any>) {
       .then(() => {
         router.push('/');
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(message.error('error'));
   }
 
   return (
