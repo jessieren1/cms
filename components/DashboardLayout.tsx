@@ -21,7 +21,10 @@ export default function DashboardPage(props: React.PropsWithChildren<any>) {
       .then(() => {
         router.push('/');
       })
-      .catch(message.error('error'));
+      .catch((err) => {
+        console.log('logout error is ' + err);
+        message.error('error');
+      });
   }
 
   return (

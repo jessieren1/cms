@@ -49,14 +49,20 @@ function LoadStudentList() {
         .then((res) => {
           console.log(res.data.msg);
         })
-        .catch(message.error('error'));
+        .catch((err) => {
+          console.log('edit error is ' + err);
+          message.error('error');
+        });
     } else {
       apiService
         .addStudent(params)
         .then((res) => {
           console.log(res.data.msg);
         })
-        .catch(message.error('error'));
+        .catch((err) => {
+          console.log('add error is ' + err);
+          message.error('error');
+        });
     }
 
     setIsModalVisible(false);
@@ -153,7 +159,10 @@ function LoadStudentList() {
                     setTotal(total - 1);
                   }
                 })
-                .catch(message.error('error'));
+                .catch((err) => {
+                  console.log('delete error is ' + err);
+                  message.error('error');
+                });
             }}
             okText="Confirm"
             cancelText="Cancel"
@@ -178,7 +187,10 @@ function LoadStudentList() {
           setTotal(res.data.total);
         }
       })
-      .catch(message.error('error'));
+      .catch((err) => {
+        console.log('get students error is ' + err);
+        message.error('error');
+      });
   }, [paginator, queryName]);
 
   return (
