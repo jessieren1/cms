@@ -1,4 +1,3 @@
-import { message } from 'antd';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 export interface IResponse<T = any> {
@@ -16,35 +15,39 @@ const instance = axios.create({
 const responseBody = (response: AxiosResponse) => response.data;
 const responseErr = (err:AxiosError) => err
 
+instance.interceptors.request.use((config) => {
+  if (!config.url.includes('login')) {
+    return {
+      ...config,
+      headers: {
+        ...config.headers,
+        Authorization: localStorage.getItem('token') ?  `Bearer  ${localStorage.getItem('token')}` : ''
+      },
+    };
+  }
 
-
-let header ={} ;
-if (typeof window !== 'undefined') {
-  header = {headers: {
-    Authorization: `Bearer  ${localStorage.getItem('token')}`
-  }}
-}
-
+  return config;
+});
 
 const req = {
 	get: (url: string,body:{}) => instance.get(url,body).then(responseBody).catch(responseErr),
-	post: (url: string, body: {}, header:{}) => instance.post(url, body,header).then(responseBody).catch(responseErr),
-	put: (url: string, body: {}, header:{}) => instance.put(url, body,header).then(responseBody).catch(responseErr),
-	delete: (url: string,header:{}) => instance.delete(url,header).then(responseBody).catch(responseErr),
+	post: (url: string, body: {}) => instance.post(url, body).then(responseBody).catch(responseErr),
+	put: (url: string, body: {}) => instance.put(url, body).then(responseBody).catch(responseErr),
+	delete: (url: string,) => instance.delete(url).then(responseBody).catch(responseErr),
 };
 
 
 export const apiService = {
-  login: (params:{}) =>req.post('login',params,{}),
+  login: (params:{}) =>req.post('login',params),
 
-	logout: () => req.post('logout', {}, header),
+	logout: () => req.post('logout', {}),
   
-  getStudents: (params:{}) => req.get('students',{...header,params}),
+  getStudents: (params:{}) => req.get('students',{params}),
 
-  addStudent: (params:{}) => req.post('students',params,header) ,
+  addStudent: (params:{}) => req.post('students',params) ,
 
-  editStudent: (params:{}) => req.put('students',params,header) ,
+  editStudent: (params:{}) => req.put('students',params) ,
 
-  deleteStudent : (id:number) => req.delete(`students/${id}`,header)
+  deleteStudent : (id:number) => req.delete(`students/${id}`)
   
   };

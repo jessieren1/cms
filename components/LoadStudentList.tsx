@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { AddStudentForm } from './AddStudentForm';
 import { apiService } from 'lib/services/api-service';
+import { Student, EditStudent, AddStudent, Course, Type } from '../model/student';
 
 const { Search } = Input;
 
@@ -17,37 +18,6 @@ const FlexContainer = styled.div`
   align-items: center;
   margin-bottom: 16px;
 `;
-
-interface Student {
-  createdAt: string;
-  updatedAt: string;
-  id: number;
-  email: string;
-  name: string;
-  country: string;
-  profileId: number;
-  type: Type;
-  courses: Course[];
-}
-
-interface Course {
-  id: number;
-  courseId: number;
-  name: string;
-}
-
-interface Type {
-  id: number;
-  name: string;
-}
-
-interface Params {
-  id: number | null;
-  email: string;
-  name: string;
-  country: string;
-  type: number;
-}
 
 function LoadStudentList() {
   const [data, setData] = useState<Student[]>([]);
@@ -64,7 +34,7 @@ function LoadStudentList() {
   };
 
   const handleSubmit = (e: any) => {
-    let params: Params = {
+    let params: AddStudent | EditStudent = {
       name: e.name,
       country: e.country,
       email: e.email,
