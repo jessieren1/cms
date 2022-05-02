@@ -44,6 +44,8 @@ export const apiService = {
   
   getStudents: (params:{}) => req.get('students',{params}),
 
+  getSingleStudent: (id:number) => req.get(`students/${id}`,{}),
+
   addStudent: (params:{}) => req.post('students',params) ,
 
   editStudent: (params:{}) => req.put('students',params) ,

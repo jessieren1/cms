@@ -1,14 +1,13 @@
-export interface Student {
-    createdAt: string;
-    updatedAt: string;
-    id: number;
-    email: string;
-    name: string;
-    country: string;
-    profileId: number;
-    type: Type;
-    courses: Course[];
-  }
+export interface Student<T = Course> {
+  id: number;
+  name: string;
+  updateAt: string;
+  country: string;
+  ctime: string;
+  email: string;
+  courses: T[];
+  type: Type | null;
+}
 
   export interface Course {
     id: number;
@@ -37,4 +36,25 @@ export interface PostLogin {
 	email: string;
 	password: string;
 	type: string;
+}
+
+export type StudentResponse = StudentWithProfile;
+
+export interface StudentWithProfile extends Student<Course>, StudentProfile {}
+
+export interface StudentProfile {
+  id: number;
+  name: string;
+  country: string;
+  email: string;
+  address: string;
+  phone: number;
+  gender: number;
+  education: string;
+  age: number;
+  interest: string[];
+  avatar: string;
+  memberStartAt: string;
+  memberEndAt: string;
+  description: string;
 }
