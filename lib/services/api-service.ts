@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 export interface IResponse<T = any> {
@@ -13,16 +14,9 @@ const instance = axios.create({
 });
 
 const responseBody = (response: AxiosResponse) => response.data;
-const errorHandler = (err: AxiosError<IResponse>): IResponse =>{
-  const msg = err.response?.data.msg ?? 'unknown error';
-  const code = err.response?.status ?? -1;
+const responseErr = (err:AxiosError) => err
 
-  if (!err.response) {
-    console.error('%c [ err ]-149', 'font-size:13px; background:pink; color:#bf2c9f;', err);
-  }
 
-  return { msg, code };
-}
 
 let header ={} ;
 if (typeof window !== 'undefined') {
@@ -33,10 +27,10 @@ if (typeof window !== 'undefined') {
 
 
 const req = {
-	get: (url: string,body:{}) => instance.get(url,body).then(responseBody).catch(),
-	post: (url: string, body: {}, header:{}) => instance.post(url, body,header).then(responseBody).catch(),
-	put: (url: string, body: {}, header:{}) => instance.put(url, body,header).then(responseBody).catch(),
-	delete: (url: string,header:{}) => instance.delete(url,header).then(responseBody).catch(),
+	get: (url: string,body:{}) => instance.get(url,body).then(responseBody).catch(responseErr),
+	post: (url: string, body: {}, header:{}) => instance.post(url, body,header).then(responseBody).catch(responseErr),
+	put: (url: string, body: {}, header:{}) => instance.put(url, body,header).then(responseBody).catch(responseErr),
+	delete: (url: string,header:{}) => instance.delete(url,header).then(responseBody).catch(responseErr),
 };
 
 
