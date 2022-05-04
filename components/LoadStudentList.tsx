@@ -7,7 +7,7 @@ import { formatDistanceToNow } from 'date-fns';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { AddStudentForm } from './AddStudentForm';
-import { apiService } from 'lib/services/api-service';
+import { apiService } from 'lib/services/base-api';
 import { Student, EditStudent, AddStudent, Course, Type } from '../model/student';
 
 const { Search } = Input;

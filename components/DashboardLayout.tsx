@@ -6,7 +6,7 @@ import { Button, Space } from 'antd';
 import { PoweroffOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import AppBreadcrumb from './Breadcrumb';
-import { apiService } from 'lib/services/api-service';
+import { apiService } from 'lib/services/base-api';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;

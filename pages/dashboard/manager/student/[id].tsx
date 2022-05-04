@@ -2,7 +2,7 @@ import DashboardLayout from '../../../../components/DashboardLayout';
 import type { NextPage } from 'next';
 import ManagerSider from 'components/Sider/ManagerSider';
 import { useRouter } from 'next/router';
-import { apiService } from 'lib/services/api-service';
+import { apiService } from 'lib/services/base-api';
 import React, { useEffect, useState } from 'react';
 import { StudentResponse, Course, Type } from 'model/student';
 import { Card, Avatar, Col, Row, Tabs, Tag } from 'antd';
@@ -33,7 +33,7 @@ const { Meta } = Card;
 
 function SingleStudent() {
   const router = useRouter();
-  let { id } = router.query;
+  const { id } = router.query;
 
   const [data, setData] = useState<StudentResponse | null>(null);
   const about = [

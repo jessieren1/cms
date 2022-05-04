@@ -5,34 +5,19 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import styles from '../styles/Home.module.css';
 import Cryptojs from 'crypto-js';
-import { apiService } from 'lib/services/api-service';
-
+import { login } from 'lib/services/auth-api';
 const NormalLoginForm = () => {
   const router = useRouter();
 
   const onFinish = (values: any) => {
-    const params = {
-      email: values.email,
-      password: Cryptojs.AES.encrypt(values.password, 'cms').toString(),
-      role: values.role.toLowerCase(),
-    };
-
-    apiService
-      .login(params)
-      .then((res) => {
-        const resRole = res.data.role;
-        const resToken = res.data.token;
-        localStorage.setItem('role', resRole);
-        localStorage.setItem('token', resToken);
-
-        router.push({
-          pathname: '/dashboard/' + values.role.toLowerCase(),
-        });
-      })
-      .catch((err) => {
-        console.log('login error is ' + err);
-        message.error('error');
+    login(values).then((res) => {
+      console.log('function attach');
+      localStorage.setItem('role', res.data.role);
+      localStorage.setItem('token', res.data.token);
+      router.push({
+        pathname: '/dashboard/' + values.role.toLowerCase(),
       });
+    });
   };
 
   const [role, setRole] = React.useState('Student');

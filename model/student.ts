@@ -6,7 +6,7 @@ export interface Student<T = Course> {
   ctime: string;
   email: string;
   courses: T[];
-  type: Type | null;
+  type: Type |  string;
 }
 
   export interface Course {
