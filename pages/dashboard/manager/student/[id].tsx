@@ -2,7 +2,7 @@ import DashboardLayout from '../../../../components/DashboardLayout';
 import type { NextPage } from 'next';
 import ManagerSider from 'components/Sider/ManagerSider';
 import { useRouter } from 'next/router';
-import { getSingleStudent } from 'lib/services/auth-api';
+import { getSingleStudent } from 'lib/services/student-api';
 import React, { useEffect, useState } from 'react';
 import { StudentResponse, Course, Type } from 'model/student';
 import { Card, Avatar, Col, Row, Tabs, Tag } from 'antd';
