@@ -1,30 +1,21 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import styles from '../styles/Home.module.css';
-import { Layout, Menu, Breadcrumb, message } from 'antd';
-import { Button, Space } from 'antd';
+import { Layout, Button } from 'antd';
 import { PoweroffOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import AppBreadcrumb from './Breadcrumb';
-import { apiService } from 'lib/services/base-api';
-
+import { logout } from 'lib/services/auth-api';
 const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
 
 export default function DashboardPage(props: React.PropsWithChildren<any>) {
   const [collapsed, setCollapsed] = React.useState(false);
   const router = useRouter();
 
   function handleLogout() {
-    apiService
-      .logout()
-      .then(() => {
-        router.push('/');
-      })
-      .catch((err) => {
-        console.log('logout error is ' + err);
-        message.error('error');
-      });
+    logout().then(() => {
+      router.push('/');
+    });
   }
 
   return (

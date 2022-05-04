@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import Cryptojs from 'crypto-js';
+
 
 const baseURL = 'http://cms.chtoma.com/api';
 const instance = axios.create({
@@ -38,7 +38,22 @@ const errorHandler = (err: any) => {
   }
 };
 
-export const req = {
+export const dealResponse = (res: any, isShowSuccess = true) => {
+  console.log('attach res');
+  return new Promise((resolve,reject) => {
+    if (res.code >= 400 && res.code < 600) {
+      message.error(res.msg);
+      return reject('error')
+    } else {
+      isShowSuccess && message.success(res.msg);
+      return resolve(res);
+    }
+    
+  });
+};
+
+
+export const AxiosReq = {
   get: (url: string, body: {}) => instance.get(url, body).then(res=>res.data).catch(err=>errorHandler(err)),
   post: (url: string, body: {}) => instance.post(url, body).then(res=>res.data).catch(err=>errorHandler(err)),
   put: (url: string, body: {}) => instance.put(url, body).then(res=>res.data).catch(err=>errorHandler(err)),
@@ -46,19 +61,3 @@ export const req = {
 };
 
 
-
-export const apiService = {
-  //  login: (params:{}) =>req.post('login',params).then().catch(),
-
-  logout: () => req.post('logout', {}),
-
-  getStudents: (params: {}) => req.get('students', { params }),
-
-  getSingleStudent: (id: number) => req.get(`students/${id}`, {}),
-
-  addStudent: (params: {}) => req.post('students', params),
-
-  editStudent: (params: {}) => req.put('students', params),
-
-  deleteStudent: (id: number) => req.delete(`students/${id}`),
-};

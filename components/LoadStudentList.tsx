@@ -7,7 +7,7 @@ import { formatDistanceToNow } from 'date-fns';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { AddStudentForm } from './AddStudentForm';
-import { apiService } from 'lib/services/base-api';
+import { deleteStudent, getStudents, addStudent, editStudent } from 'lib/services/student-api';
 import { Student, EditStudent, AddStudent, Course, Type } from '../model/student';
 
 const { Search } = Input;
@@ -44,25 +44,9 @@ function LoadStudentList() {
 
     if (editingStudent !== null) {
       params = { ...params, id: editingStudent.id };
-      apiService
-        .editStudent(params)
-        .then((res) => {
-          console.log(res.data.msg);
-        })
-        .catch((err) => {
-          console.log('edit error is ' + err);
-          message.error('error');
-        });
+      editStudent(params);
     } else {
-      apiService
-        .addStudent(params)
-        .then((res) => {
-          console.log(res.data.msg);
-        })
-        .catch((err) => {
-          console.log('add error is ' + err);
-          message.error('error');
-        });
+      addStudent(params);
     }
 
     setIsModalVisible(false);
@@ -145,24 +129,17 @@ function LoadStudentList() {
           <Popconfirm
             title="Are you sure to delete?"
             onConfirm={() => {
-              apiService
-                .deleteStudent(record.id)
-                .then((res) => {
-                  const { data: isDeleted } = res;
+              deleteStudent(record.id).then((res) => {
+                const { data: isDeleted } = res;
+                if (isDeleted) {
+                  const index = data.findIndex((item) => item.id === record.id);
+                  const updatedData = [...data];
 
-                  if (isDeleted) {
-                    const index = data.findIndex((item) => item.id === record.id);
-                    const updatedData = [...data];
-
-                    updatedData.splice(index, 1);
-                    setData(updatedData);
-                    setTotal(total - 1);
-                  }
-                })
-                .catch((err) => {
-                  console.log('delete error is ' + err);
-                  message.error('error');
-                });
+                  updatedData.splice(index, 1);
+                  setData(updatedData);
+                  setTotal(total - 1);
+                }
+              });
             }}
             okText="Confirm"
             cancelText="Cancel"
@@ -179,8 +156,8 @@ function LoadStudentList() {
     if (queryName) {
       params = { ...params, query: queryName };
     }
-    apiService
-      .getStudents(params)
+
+    getStudents(params)
       .then((res) => {
         if (res.data) {
           setData(res.data.students);

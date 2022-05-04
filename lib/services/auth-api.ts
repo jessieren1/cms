@@ -1,20 +1,6 @@
-import { req } from './base-api';
+import { AxiosReq } from './base-api';
 import Cryptojs from 'crypto-js';
-import { message } from 'antd';
-
-const dealResponse = (res: any, isShowSuccess = true) => {
-  console.log('attach res');
-  return new Promise((resolve,reject) => {
-    if (res.code >= 400 && res.code < 600) {
-      message.error(res.msg);
-      return reject('error')
-    } else {
-      isShowSuccess && message.success(res.msg);
-      return resolve(res);
-    }
-    
-  });
-};
+import { dealResponse } from './base-api';
 
 
 
@@ -24,7 +10,14 @@ export const login = (values: any) => {
     password: Cryptojs.AES.encrypt(values.password, 'cms').toString(),
     role: values.role.toLowerCase(),
   };
-  return req
-    .post('/login', params)
+  return AxiosReq
+    .post('login', params)
     .then((res) => dealResponse(res))
 };
+
+export const logout = () => {
+  return AxiosReq
+    .post('logout', {})
+    .then((res) => dealResponse(res))
+};
+

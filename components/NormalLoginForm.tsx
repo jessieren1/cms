@@ -11,7 +11,6 @@ const NormalLoginForm = () => {
 
   const onFinish = (values: any) => {
     login(values).then((res) => {
-      console.log('function attach');
       localStorage.setItem('role', res.data.role);
       localStorage.setItem('token', res.data.token);
       router.push({
