@@ -41,7 +41,7 @@ function SingleStudent() {
     { label: 'Area', value: data?.country },
     { label: 'Gender', value: data?.gender === 1 ? 'Male' : 'Female' },
     { label: 'Member Period', value: data?.memberStartAt + ' - ' + data?.memberEndAt },
-    { label: 'Type', value: data?.type.name },
+    { label: 'Type', value: data?.type?.name },
     { label: 'Create Time', value: data?.ctime },
     { label: 'Update Time', value: data?.updateAt },
   ];
@@ -72,7 +72,7 @@ function SingleStudent() {
   ];
 
   useEffect(() => {
-    getSingleStudent(parseInt(id)).then((res) => {
+    getSingleStudent(parseInt(id as string)).then((res: any) => {
       setData(res.data);
     });
   }, [id]);
