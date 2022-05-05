@@ -44,8 +44,8 @@ function SingleStudent() {
     { label: 'Gender', value: data?.gender === 1 ? 'Male' : 'Female' },
     { label: 'Member Period', value: data?.memberStartAt + ' - ' + data?.memberEndAt },
     { label: 'Type', value: data?.type?.name },
-    { label: 'Create Time', value: data?.ctime },
-    { label: 'Update Time', value: data?.updateAt },
+    { label: 'Create Time', value: data?.createdAt },
+    { label: 'Update Time', value: data?.updatedAt },
   ];
 
   const info = [
@@ -77,13 +77,16 @@ function SingleStudent() {
     },
     {
       title: 'Join Time',
-      dataIndex: 'ctime',
+      dataIndex: 'createdAt',
     },
   ];
 
   useEffect(() => {
     getSingleStudent(parseInt(id as string)).then((res: any) => {
       setData(res.data);
+      console.log(res.data);
+
+      console.log(res.data.updateAt);
     });
   }, [id]);
 

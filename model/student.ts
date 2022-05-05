@@ -40,7 +40,7 @@ export interface PostLogin {
 
 export type StudentResponse = StudentWithProfile;
 
-export interface StudentWithProfile extends Student<Course>, StudentProfile {}
+export interface StudentWithProfile extends StudentTime, Student<Course>, StudentProfile {}
 
 export interface StudentProfile {
   id: number;
@@ -57,4 +57,9 @@ export interface StudentProfile {
   memberStartAt: string;
   memberEndAt: string;
   description: string;
+}
+
+export interface StudentTime {
+  createdAt: string,
+  updatedAt: string
 }
