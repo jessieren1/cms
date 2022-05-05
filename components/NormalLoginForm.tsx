@@ -10,7 +10,7 @@ const NormalLoginForm = () => {
   const router = useRouter();
 
   const onFinish = (values: any) => {
-    login(values).then((res) => {
+    login(values).then((res: any) => {
       localStorage.setItem('role', res.data.role);
       localStorage.setItem('token', res.data.token);
       router.push({

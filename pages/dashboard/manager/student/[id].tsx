@@ -5,7 +5,8 @@ import { useRouter } from 'next/router';
 import { getSingleStudent } from 'lib/services/student-api';
 import React, { useEffect, useState } from 'react';
 import { StudentResponse, Course, Type } from 'model/student';
-import { Card, Avatar, Col, Row, Tabs, Tag } from 'antd';
+import { Card, Avatar, Col, Row, Tabs, Tag, Divider } from 'antd';
+import { AntDesignOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import Table, { ColumnType } from 'antd/lib/table';
 import Link from 'next/link';
@@ -36,6 +37,7 @@ function SingleStudent() {
   const { id } = router.query;
 
   const [data, setData] = useState<StudentResponse | null>(null);
+
   const about = [
     { label: 'Eduction', value: data?.education },
     { label: 'Area', value: data?.country },
@@ -45,6 +47,14 @@ function SingleStudent() {
     { label: 'Create Time', value: data?.ctime },
     { label: 'Update Time', value: data?.updateAt },
   ];
+
+  const info = [
+    { label: 'Name', value: data?.name },
+    { label: 'Age', value: data?.age },
+    { label: 'Email', value: data?.email },
+    { label: 'Phone', value: data?.phone },
+  ];
+
   const columns: ColumnType<Course>[] = [
     {
       title: 'No.',
@@ -80,14 +90,31 @@ function SingleStudent() {
   return (
     <Row>
       <Col span={8}>
-        <Card style={{ width: 400, marginTop: 16 }}>
-          <Meta avatar={<Avatar src={data?.avatar} />} title={data?.name} />
-          <p>Age : {data?.age}</p>
-          <p>Email : {data?.email}</p>
-          <p>Phone : {data?.phone}</p>
-          <p>Address : {data?.address}</p>
+        <Card style={{ marginRight: '20px' }}>
+          <Avatar
+            src={data?.avatar}
+            size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
+            icon={<AntDesignOutlined />}
+            style={{ display: 'block', margin: 'auto' }}
+          />
+          <Divider />
+          <Row>
+            {info.map((item) => (
+              <Col span={12} key={item.label} style={{ textAlign: 'center' }}>
+                <b>{item.label}</b>
+                <p>{item.value}</p>
+              </Col>
+            ))}
+          </Row>
+          <Row>
+            <Col span={24} style={{ textAlign: 'center' }}>
+              <b>Address</b>
+              <p>{data?.address}</p>
+            </Col>
+          </Row>
         </Card>
       </Col>
+
       <Col span={16}>
         <Card>
           <Tabs defaultActiveKey="1" animated={true}>
