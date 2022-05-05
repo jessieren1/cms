@@ -129,7 +129,7 @@ function LoadStudentList() {
           <Popconfirm
             title="Are you sure to delete?"
             onConfirm={() => {
-              deleteStudent(record.id).then((res) => {
+              deleteStudent(record.id).then((res: any) => {
                 const { data: isDeleted } = res;
                 if (isDeleted) {
                   const index = data.findIndex((item) => item.id === record.id);
@@ -158,7 +158,7 @@ function LoadStudentList() {
     }
 
     getStudents(params)
-      .then((res) => {
+      .then((res: any) => {
         if (res.data) {
           setData(res.data.students);
           setTotal(res.data.total);

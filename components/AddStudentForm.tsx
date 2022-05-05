@@ -1,5 +1,4 @@
 import { Select, Form, Input, Button } from 'antd';
-import { initial } from 'lodash';
 
 export function AddStudentForm(props: any) {
   const { editingStudent, handleCancel, handleSubmit } = props;
