@@ -84,9 +84,6 @@ function SingleStudent() {
   useEffect(() => {
     getSingleStudent(parseInt(id as string)).then((res: any) => {
       setData(res.data);
-      console.log(res.data);
-
-      console.log(res.data.updateAt);
     });
   }, [id]);
 

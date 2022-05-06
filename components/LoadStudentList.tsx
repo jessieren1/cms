@@ -157,17 +157,12 @@ function LoadStudentList() {
       params = { ...params, query: queryName };
     }
 
-    getStudents(params)
-      .then((res: any) => {
-        if (res.data) {
-          setData(res.data.students);
-          setTotal(res.data.total);
-        }
-      })
-      .catch((err) => {
-        console.log('get students error is ' + err);
-        message.error('error');
-      });
+    getStudents(params).then((res: any) => {
+      if (res.data) {
+        setData(res.data.students);
+        setTotal(res.data.total);
+      }
+    });
   }, [paginator, queryName]);
 
   return (
