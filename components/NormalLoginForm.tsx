@@ -4,7 +4,6 @@ import { Form, Input, Button, Checkbox, Radio, message, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import styles from '../styles/Home.module.css';
-import Cryptojs from 'crypto-js';
 import { login } from 'lib/services/auth-api';
 const NormalLoginForm = () => {
   const router = useRouter();
