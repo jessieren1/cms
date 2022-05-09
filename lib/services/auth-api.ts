@@ -1,4 +1,4 @@
-import { AxiosReq } from './base-api';
+import { axiosReq } from './base-api';
 import Cryptojs from 'crypto-js';
 import { dealResponse } from './base-api';
 
@@ -10,13 +10,13 @@ export const login = (values: any) => {
     password: Cryptojs.AES.encrypt(values.password, 'cms').toString(),
     role: values.role.toLowerCase(),
   };
-  return AxiosReq
+  return axiosReq
     .post('login', params)
     .then((res) => dealResponse(res))
 };
 
 export const logout = () => {
-  return AxiosReq
+  return axiosReq
     .post('logout', {})
     .then((res) => dealResponse(res))
 };

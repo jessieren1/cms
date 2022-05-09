@@ -17,7 +17,7 @@ export default function AppBreadcrumb() {
     };
   });
 
-  function itemRender(route: any, routes: any, paths: any) {
+  function itemRender(route: any, params: any, routes: any, paths: any) {
     const isOverviewPage = paths.length <= 2;
     const subPage = '/' + paths.join('/');
 

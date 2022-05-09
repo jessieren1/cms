@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios from 'axios';
 
 
 const baseURL = 'http://cms.chtoma.com/api';
@@ -8,6 +8,7 @@ const instance = axios.create({
   withCredentials: true,
   responseType: 'json',
 });
+
 
 instance.interceptors.request.use((config) => {
   if (config.url != '/login') {
@@ -51,11 +52,26 @@ export const dealResponse = (res: any) => {
 };
 
 
-export const AxiosReq = {
-  get: (url: string, body: {}) => instance.get(url, body).then(res=>res.data).catch(err=>errorHandler(err)),
-  post: (url: string, body: {}) => instance.post(url, body).then(res=>res.data).catch(err=>errorHandler(err)),
-  put: (url: string, body: {}) => instance.put(url, body).then(res=>res.data).catch(err=>errorHandler(err)),
-  delete: (url: string) => instance.delete(url).then(res=>res.data).catch(err=>errorHandler(err)),
+export const axiosReq = {
+  get: (url: string, body: {}) => 
+  instance.get(url, body).
+  then(res=>res.data).
+  catch(err=>errorHandler(err)),
+
+  post: (url: string, body: {}) => 
+  instance.post(url, body).
+  then(res=>res.data).
+  catch(err=>errorHandler(err)),
+
+  put: (url: string, body: {}) => 
+  instance.put(url, body).
+  then(res=>res.data).
+  catch(err=>errorHandler(err)),
+
+  delete: (url: string) => 
+  instance.delete(url).
+  then(res=>res.data).
+  catch(err=>errorHandler(err)),
 };
 
 
