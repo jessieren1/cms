@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import 'antd/dist/antd.css';
-import { PageHeader } from 'antd';
+import { Breadcrumb } from 'antd';
+import Link from 'next/link';
 
 export default function AppBreadcrumb() {
   const router = useRouter();
@@ -11,10 +12,22 @@ export default function AppBreadcrumb() {
 
   const routes: { path: string; breadcrumbName: string }[] = paths.map((e) => {
     return {
-      path: '/',
+      path: e,
       breadcrumbName: e,
     };
   });
 
-  return <PageHeader className="site-page-header" breadcrumb={{ routes }} />;
+  function itemRender(route: any, routes: any, paths: any) {
+    const isOverviewPage = paths.length <= 2;
+    const subPage = '/' + paths.join('/');
+
+    const last = routes.indexOf(route) === routes.length - 1;
+    return last ? (
+      <span>{route.breadcrumbName}</span>
+    ) : (
+      <Link href={isOverviewPage ? root : subPage}>{route.breadcrumbName}</Link>
+    );
+  }
+
+  return <Breadcrumb itemRender={itemRender} routes={routes} style={{ margin: '16px 0' }} />;
 }
