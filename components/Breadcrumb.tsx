@@ -6,8 +6,7 @@ import Link from 'next/link';
 
 export default function AppBreadcrumb() {
   const router = useRouter();
-  const path = router.pathname;
-  const paths = path.split('/').slice(1);
+  const paths = router.pathname.split('/').slice(1);
   const root = '/' + paths.slice(0, 2).join('/');
 
   const routes: { path: string; breadcrumbName: string }[] = paths.map((e) => {

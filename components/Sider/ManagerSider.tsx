@@ -1,43 +1,107 @@
+import {
+  EditOutlined,
+  FileAddOutlined,
+  PieChartOutlined,
+  ProjectOutlined,
+  ReadOutlined,
+  SolutionOutlined,
+  TeamOutlined,
+} from '@ant-design/icons';
 import { Menu } from 'antd';
-import Link from 'next/link';
 import 'antd/dist/antd.css';
-import { PieChartOutlined, FileOutlined } from '@ant-design/icons';
-const { SubMenu } = Menu;
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-export default function ManagerSider() {
-  return (
-    <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-      <Menu.Item key="1" icon={<PieChartOutlined />}>
-        <Link href="/dashboard/manager">
-          <a>Overview</a>
-        </Link>
-      </Menu.Item>
+const navLinks = [
+  {
+    title: 'Overview',
+    path: '',
+    icon: <PieChartOutlined />,
+  },
+  {
+    title: 'Class Schedule',
+    path: 'schedule',
+    icon: <PieChartOutlined />,
+  },
+  {
+    title: 'Student',
+    path: 'student',
+    icon: <SolutionOutlined />,
+    subNav: [
+      {
+        title: 'Student List',
+        path: 'student',
+        icon: <TeamOutlined />,
+      },
+    ],
+  },
+  {
+    title: 'Teacher',
+    path: 'teacher',
+    icon: <SolutionOutlined />,
+    subNav: [
+      {
+        title: 'Teacher List',
+        path: 'teacher',
+        icon: <TeamOutlined />,
+      },
+    ],
+  },
+  {
+    title: 'Course',
+    path: 'course',
+    icon: <ReadOutlined />,
+    subNav: [
+      {
+        title: 'All Courses',
+        path: 'course',
+        icon: <ProjectOutlined />,
+      },
+      {
+        title: 'Add Course',
+        path: 'add-course',
+        icon: <FileAddOutlined />,
+      },
+      {
+        title: 'Edit Course',
+        path: 'edit-course',
+        icon: <EditOutlined />,
+      },
+    ],
+  },
+];
 
-      <Menu.Item key="2" icon={<PieChartOutlined />}>
-        Class Schedule
-      </Menu.Item>
+const renderSideMenu = (sideNav: any, parentPath: string[]) => {
+  return sideNav.map((item: any) => {
+    const itemPath =
+      parentPath.slice(-1)[0] === item.path ? parentPath : [...parentPath, item.path];
 
-      <SubMenu key="sub1" icon={<PieChartOutlined />} title="Students">
-        <Menu.Item key="3">
-          <Link href="/dashboard/manager/student">
-            <a>Student List</a>
+    const subMenuKey = itemPath.slice(3, 4).toString();
+    if (item.subNav && !!item.subNav.length) {
+      return (
+        <Menu.SubMenu key={subMenuKey} title={item.title} icon={item.icon}>
+          {renderSideMenu(item.subNav, itemPath)}
+        </Menu.SubMenu>
+      );
+    } else {
+      return item.isHideInSiderNav ? null : (
+        <Menu.Item key={itemPath.join('/')} icon={item.icon}>
+          <Link href={itemPath.join('/')}>
+            <a>{item.title}</a>
           </Link>
         </Menu.Item>
-      </SubMenu>
+      );
+    }
+  });
+};
 
-      <SubMenu key="sub2" icon={<PieChartOutlined />} title="Courses">
-        <Menu.Item key="4">All Courses</Menu.Item>
-        <Menu.Item key="5">Add Courses</Menu.Item>
-        <Menu.Item key="6">Edit Courses</Menu.Item>
-      </SubMenu>
-
-      <Menu.Item key="7" icon={<FileOutlined />}>
-        Class Schedule
-      </Menu.Item>
-
-      <Menu.Item key="8" icon={<FileOutlined />}>
-        Message
-      </Menu.Item>
+export default function ManagerSide() {
+  const router = useRouter();
+  const paths = router.pathname.split('/');
+  const rolePath = paths.slice(0, 3);
+  return (
+    <Menu theme="dark" mode="inline" style={{ borderRight: 0 }}>
+      {renderSideMenu(navLinks, rolePath)}
     </Menu>
   );
 }
