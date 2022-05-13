@@ -71,22 +71,33 @@ const navLinks = [
   },
 ];
 
+export const generateKey = (data: any, index: number): string => {
+  return `${data.title}_${index}`;
+};
+
+let keyHref = {};
+
 const renderSideMenu = (sideNav: any, parentPath: string[]) => {
-  return sideNav.map((item: any) => {
+  return sideNav.map((item: any, index: number) => {
     const itemPath =
       parentPath.slice(-1)[0] === item.path ? parentPath : [...parentPath, item.path];
 
-    const subMenuKey = itemPath.slice(3, 4).toString();
+    const href = itemPath.join('/');
+    const key = itemPath.slice(3, 4).toString();
+    //const key = generateKey(item, index);
+    //keyHref = { ...keyHref, href: key };
+
     if (item.subNav && !!item.subNav.length) {
       return (
-        <Menu.SubMenu key={subMenuKey} title={item.title} icon={item.icon}>
+        <Menu.SubMenu key={key} title={item.title} icon={item.icon}>
           {renderSideMenu(item.subNav, itemPath)}
         </Menu.SubMenu>
       );
     } else {
-      return item.isHideInSiderNav ? null : (
-        <Menu.Item key={itemPath.join('/')} icon={item.icon}>
-          <Link href={itemPath.join('/')}>
+      return (
+        // <Menu.Item key={key} icon={item.icon}>
+        <Menu.Item key={href} icon={item.icon}>
+          <Link href={href}>
             <a>{item.title}</a>
           </Link>
         </Menu.Item>
@@ -97,10 +108,26 @@ const renderSideMenu = (sideNav: any, parentPath: string[]) => {
 
 export default function ManagerSide() {
   const router = useRouter();
-  const paths = router.pathname.split('/');
+
+  const path = router.pathname;
+  const paths = path.split('/');
   const rolePath = paths.slice(0, 3);
+
+  const openKeys = [router.pathname.split('/').slice(3, 4).toString()];
+  const selectedKeys = [
+    router.pathname.split('/').slice(-1)[0] === '[id]'
+      ? router.pathname.split('/').slice(0, -1).join('/')
+      : router.pathname,
+  ];
+
   return (
-    <Menu theme="dark" mode="inline" style={{ borderRight: 0 }}>
+    <Menu
+      theme="dark"
+      mode="inline"
+      style={{ borderRight: 0 }}
+      defaultOpenKeys={openKeys}
+      defaultSelectedKeys={selectedKeys}
+    >
       {renderSideMenu(navLinks, rolePath)}
     </Menu>
   );
