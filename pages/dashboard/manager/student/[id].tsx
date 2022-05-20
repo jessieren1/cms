@@ -1,6 +1,5 @@
 import DashboardLayout from '../../../../components/DashboardLayout';
 import type { NextPage } from 'next';
-import ManagerSider from 'components/ManagerSider';
 import { useRouter } from 'next/router';
 import { getSingleStudent } from 'lib/services/student-api';
 import React, { useEffect, useState } from 'react';
@@ -165,8 +164,8 @@ function SingleStudent() {
   );
 }
 
-const StudentList: NextPage = () => {
+const SingleStudentPage: NextPage = () => {
   return <DashboardLayout>{<SingleStudent />}</DashboardLayout>;
 };
 
-export default StudentList;
+export default SingleStudentPage;

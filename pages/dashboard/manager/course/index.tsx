@@ -73,7 +73,7 @@ export function CourseList(props: any) {
   );
 }
 
-export function ScrollMode() {
+export function CoursePage() {
   const [data, setData] = useState<Course[]>([]);
   const [paginator, setPaginator] = useState({ page: 1, limit: 20 });
 
@@ -81,7 +81,7 @@ export function ScrollMode() {
     let params: Record<string, string | number> = { ...paginator };
     getCourses(params).then((res: any) => {
       if (res.data) {
-        setData(res.data.courses);
+        setData((pre) => [...res.data.courses, ...pre]);
       }
     });
   }, [paginator]);
@@ -107,7 +107,7 @@ export function ScrollMode() {
             <List.Item key={item.id}>
               <CourseList {...item}>
                 <Link
-                  href={`/dashboard/${localStorage.getItem('role')}/courses/${item.id}`}
+                  href={`/dashboard/${localStorage.getItem('role')}/course/${item.id}`}
                   passHref
                 >
                   <Button type="primary">Read More</Button>
@@ -122,7 +122,7 @@ export function ScrollMode() {
 }
 
 const Manager: NextPage = () => {
-  return <DashboardLayout>{<ScrollMode />}</DashboardLayout>;
+  return <DashboardLayout>{<CoursePage />}</DashboardLayout>;
 };
 
 export default Manager;

@@ -9,3 +9,9 @@ import { axiosReq } from "./base-api";
       .then((res) => dealResponse(res))
   };
   
+  export const getSingleCourse = (params: any) => {
+    return axiosReq
+      .get('courses/detail', { params })
+      .then((res) => dealResponse(res))
+  };
+  
