@@ -1,6 +1,6 @@
 import DashboardLayout from '../../../../components/DashboardLayout';
 import type { NextPage } from 'next';
-import ManagerSider from '../../../../components/Sider/ManagerSider';
+import ManagerSider from '../../../../components/ManagerSider';
 import { useEffect, useState } from 'react';
 import { Course } from '../../../../model/course';
 import { getCourses } from '../../../../lib/services/course-api';
@@ -79,9 +79,7 @@ export function ScrollMode() {
 
   useEffect(() => {
     let params: Record<string, string | number> = { ...paginator };
-    console.log(paginator);
     getCourses(params).then((res: any) => {
-      console.log(res);
       if (res.data) {
         setData(res.data.courses);
       }
@@ -124,7 +122,7 @@ export function ScrollMode() {
 }
 
 const Manager: NextPage = () => {
-  return <DashboardLayout left={<ManagerSider />} center={<ScrollMode />} />;
+  return <DashboardLayout>{<ScrollMode />}</DashboardLayout>;
 };
 
 export default Manager;

@@ -7,8 +7,9 @@ import { useRouter } from 'next/router';
 import AppBreadcrumb from './Breadcrumb';
 import { logout } from 'lib/services/auth-api';
 const { Header, Content, Footer, Sider } = Layout;
+import ManagerSider from './ManagerSider';
 
-export default function DashboardPage(props: React.PropsWithChildren<any>) {
+export default function DashboardPage({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = React.useState(false);
   const router = useRouter();
 
@@ -28,7 +29,7 @@ export default function DashboardPage(props: React.PropsWithChildren<any>) {
         }}
       >
         <div className={styles.logo} />
-        {props.left}
+        {<ManagerSider />}
       </Sider>
       <Layout className={styles.site_layout}>
         <Header className={styles.site_layout_background} style={{ padding: 0 }} />
@@ -41,7 +42,7 @@ export default function DashboardPage(props: React.PropsWithChildren<any>) {
         <Content style={{ margin: '0 16px' }}>
           <AppBreadcrumb />
           <div className={styles.site_layout_background} style={{ padding: 24, minHeight: 360 }}>
-            {props.center}
+            {children}
           </div>
         </Content>
         <Footer
