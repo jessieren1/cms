@@ -9,7 +9,7 @@ import { logout } from 'lib/services/auth-api';
 const { Header, Content, Footer, Sider } = Layout;
 import ManagerSider from './ManagerSider';
 
-export default function DashboardPage({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = React.useState(false);
   const router = useRouter();
 
@@ -50,7 +50,7 @@ export default function DashboardPage({ children }: { children: React.ReactNode 
             textAlign: 'center',
           }}
         >
-          Ant Design ©2018 Created by Ant UED
+          Footer ©2022
         </Footer>
       </Layout>
     </Layout>

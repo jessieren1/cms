@@ -165,7 +165,7 @@ function SingleStudent() {
 }
 
 const SingleStudentPage: NextPage = () => {
-  return <DashboardLayout>{<SingleStudent />}</DashboardLayout>;
+  return <SingleStudent />;
 };
 
 export default SingleStudentPage;

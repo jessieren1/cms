@@ -36,7 +36,7 @@ function SingleCourse() {
 }
 
 const SingleCoursePage: NextPage = () => {
-  return <DashboardLayout>{<SingleCourse />}</DashboardLayout>;
+  return <SingleCourse />;
 };
 
 export default SingleCoursePage;

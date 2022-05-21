@@ -122,7 +122,7 @@ export function CoursePage() {
 }
 
 const Manager: NextPage = () => {
-  return <DashboardLayout>{<CoursePage />}</DashboardLayout>;
+  return <CoursePage />;
 };
 
 export default Manager;
