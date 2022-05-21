@@ -1,6 +1,4 @@
-import DashboardLayout from '../../../../components/DashboardLayout';
 import type { NextPage } from 'next';
-import ManagerSider from '../../../../components/ManagerSider';
 import { useEffect, useState } from 'react';
 import { Course } from '../../../../model/course';
 import { getCourses } from '../../../../lib/services/course-api';
@@ -76,12 +74,16 @@ export function CourseList(props: any) {
 export function CoursePage() {
   const [data, setData] = useState<Course[]>([]);
   const [paginator, setPaginator] = useState({ page: 1, limit: 20 });
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     let params: Record<string, string | number> = { ...paginator };
     getCourses(params).then((res: any) => {
       if (res.data) {
-        setData((pre) => [...res.data.courses, ...pre]);
+        setData((pre) => [...pre, ...res.data.courses]);
+        if (res.data.total <= paginator.page * paginator.limit) {
+          setHasMore(false);
+        }
       }
     });
   }, [paginator]);
@@ -91,7 +93,8 @@ export function CoursePage() {
       <InfiniteScroll
         dataLength={data.length}
         next={() => setPaginator({ ...paginator, page: paginator.page + 1 })}
-        hasMore={data.length < 50}
+        // hasMore={data.length < 50}
+        hasMore={hasMore}
         loader={
           <Divider plain>
             <Spin />
