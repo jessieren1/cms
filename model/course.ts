@@ -1,19 +1,28 @@
 export interface Course {
     id: number;
     name: string;
-    uid: string;
+    uid: string; //code
     detail: string;
     startTime: string;
-    classTime: string[];
     price: number;
     maxStudents: number;
-    payStudents: number;
     star: number;
-    status: number;
+    status: CourseStatus;
     duration: number;
-    durationUnit: number;
+    durationUnit: DurationUnit;
     cover: string;
-    teacher: string;
-    typeId: number;
+    teacherName: string;
+    teacherId: number;
+    type: CourseType[];
     ctime: string;
-}
+    scheduleId: number;
+  }
+
+  type DurationUnit = 1 | 2 | 3 | 4 | 5;
+
+type CourseStatus = 0 | 1 | 2;
+
+export interface CourseType {
+    id: number;
+    name: string;
+  }
