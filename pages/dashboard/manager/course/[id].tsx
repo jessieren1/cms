@@ -1,19 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Badge, Card, Col, Layout, Row } from 'antd';
+import { Badge, Card, Col, Collapse, Layout, Row, Steps, Tag } from 'antd';
 import { getSingleCourse } from 'lib/services/course-api';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import { CourseCard } from 'components/CourseCard';
-import { divide } from 'lodash';
 import styled from 'styled-components';
-
-const H2 = styled.h2`
-  color: #7356f1;
-`;
-
-const H3 = styled.h3`
-  margin: 1em 0;
-`;
+import { CourseDetail, Schedule } from '../../../../model/course';
+import CourseDetailCard from 'components/CourseDetail';
 
 const StyledCol = styled(Col)`
   display: flex;
@@ -41,25 +34,12 @@ const StyledRow = styled(Row)`
   margin: 0 0 0 -24px !important;
 `;
 
-const StepsRow = styled(Row)`
-  overflow-x: scroll;
-  ::-webkit-scrollbar {
-    display: none;
-  }
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  .ant-steps-item-title {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    max-width: 6em;
-  }
-`;
-
 function SingleCourse() {
   const router = useRouter();
   const { id } = router.query;
-  const [course, setCourse] = useState(null);
+  const [course, setCourse] = useState<CourseDetail>();
   const [info, setInfo] = useState<{ label: string; value: string | number }[]>([]);
+  const [activeChapterIndex, setActiveChapterIndex] = useState(0);
 
   useEffect(() => {
     getSingleCourse({ id: id }).then((res: any) => {
@@ -73,7 +53,9 @@ function SingleCourse() {
           { label: 'Earings', value: sales.earnings },
         ];
         setInfo(info);
-        console.log(info);
+        setActiveChapterIndex(
+          res.data.schedule.chapters.findIndex((item: any) => item.id === res.data.schedule.current)
+        );
       }
     });
   }, [id]);
@@ -93,6 +75,8 @@ function SingleCourse() {
             </StyledRow>
           </CourseCard>
         </Col>
+
+        <CourseDetailCard course={course} activeChapterIndex={activeChapterIndex} />
       </Row>
     </Layout>
   );

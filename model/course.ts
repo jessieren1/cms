@@ -14,7 +14,7 @@ export interface Course {
     teacherName: string;
     teacherId: number;
     type: CourseType[];
-    ctime: string;
+    createdAt: string;
     scheduleId: number;
   }
 
@@ -26,3 +26,36 @@ export interface CourseType {
     id: number;
     name: string;
   }
+
+  export interface CourseDetail extends Course {
+    sales: Sales;
+    schedule: Schedule;
+  }
+  
+
+  export interface Schedule {
+    id: number;
+    status: number;
+    current: number;
+    chapters: Chapter[];
+    classTime: string[];
+  }
+
+  export interface Chapter {
+    name: string;
+    id: number;
+    content: string;
+    order: number;
+  }
+
+
+  interface Sales {
+    id: number;
+    batches: number;
+    price: number;
+    earnings: number;
+    paidAmount: number;
+    studentAmount: number;
+    paidIds: number[];
+  }
+  

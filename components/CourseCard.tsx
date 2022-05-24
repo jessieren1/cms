@@ -29,7 +29,7 @@ const getDuration = (data: Course): string => {
   return duration > 1 ? text + 's' : text;
 };
 
-export function CourseCard(props: React.PropsWithChildren<Course> & { cardProps?: CardProps }) {
+export function CourseCard(props: any) {
   return (
     <Card
       cover={
