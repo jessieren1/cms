@@ -1,9 +1,8 @@
 import { HeartFilled, UserOutlined } from '@ant-design/icons';
 import { Card, Col, Row } from 'antd';
-import { Course } from 'model/course';
+import { Course } from '../../model/course';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { CardProps } from 'antd/lib/card';
 import React from 'react';
 
 const StyledRow = styled(Row)`

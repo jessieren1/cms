@@ -5,10 +5,10 @@ import { getCourses } from '../../../../lib/services/course-api';
 import { Button, Card, Col, Divider, List, Row, Spin } from 'antd';
 import Link from 'next/link';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { CourseCard } from 'components/CourseCard';
-import BackTop from 'components/BackTop';
+import { CourseCard } from 'components/course/CourseCard';
+import BackTop from 'components/common/BackTop';
 
-export function CoursePage() {
+const Course: NextPage = () => {
   const [data, setData] = useState<Course[]>([]);
   const [paginator, setPaginator] = useState({ page: 1, limit: 20 });
   const [hasMore, setHasMore] = useState(true);
@@ -60,10 +60,6 @@ export function CoursePage() {
       <BackTop targetId="scrollableDiv" visibilityHeight={800} />
     </>
   );
-}
-
-const Course: NextPage = () => {
-  return <CoursePage />;
 };
 
 export default Course;

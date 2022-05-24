@@ -3,10 +3,10 @@ import { Badge, Card, Col, Collapse, Layout, Row, Steps, Tag } from 'antd';
 import { getSingleCourse } from 'lib/services/course-api';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
-import { CourseCard } from 'components/CourseCard';
+import { CourseCard } from 'components/course/CourseCard';
 import styled from 'styled-components';
 import { CourseDetail, Schedule } from '../../../../model/course';
-import CourseDetailCard from 'components/CourseDetail';
+import CourseDetailCard from 'components/course/CourseDetail';
 
 const StyledCol = styled(Col)`
   display: flex;

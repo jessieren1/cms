@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
-import DashboardLayout from '../components/DashboardLayout';
+import DashboardLayout from '../components/common/DashboardLayout';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();

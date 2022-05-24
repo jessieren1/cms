@@ -1,6 +1,5 @@
 import { VerticalAlignTopOutlined } from '@ant-design/icons';
 import { BackTop } from 'antd';
-import styled from 'styled-components';
 
 const style: React.CSSProperties = {
   height: 40,

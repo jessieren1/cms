@@ -1,4 +1,4 @@
-import DashboardLayout from '../../../../components/DashboardLayout';
+import DashboardLayout from '../../../../components/common/DashboardLayout';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { getSingleStudent } from 'lib/services/student-api';

@@ -1,6 +1,6 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import styles from '../styles/Home.module.css';
+import styles from '../../styles/Home.module.css';
 import { Layout, Button } from 'antd';
 import { PoweroffOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';

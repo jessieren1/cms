@@ -7,7 +7,7 @@ import { ColumnType } from 'antd/lib/table';
 import { formatDistanceToNow } from 'date-fns';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { AddStudentForm } from 'components/AddStudentForm';
+import { AddStudentForm } from 'components/student/AddStudentForm';
 import { deleteStudent, getStudents, addStudent, editStudent } from 'lib/services/student-api';
 import { Student, EditStudent, AddStudent, Course, Type } from '../../../../model/student';
 
