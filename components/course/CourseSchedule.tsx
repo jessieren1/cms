@@ -1,10 +1,7 @@
 import React from 'react';
-import { Form, Input, InputNumber, Button, Row, DatePicker, Select, Col } from 'antd';
+import { Form, Input, Button, Row, Col } from 'antd';
 import styles from './CourseForm.module.css';
-import styled from 'styled-components';
-import TextArea from 'antd/lib/input/TextArea';
-import Dragger from 'antd/lib/upload/Dragger';
-import { InboxOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 
 const CourseSchedule: React.FC = () => {
   const onFinish = (values: any) => {
@@ -38,6 +35,7 @@ const CourseSchedule: React.FC = () => {
           </Col>
         </Row>
       </div>
+
       <div className={styles.schedule2}>
         <h2>Class Time</h2>
         <Row>
@@ -64,11 +62,11 @@ const CourseSchedule: React.FC = () => {
         </Row>
       </div>
 
-      {/* <Form.Item>
+      <Form.Item>
         <Button type="primary" htmlType="submit">
           Next
         </Button>
-      </Form.Item> */}
+      </Form.Item>
     </Form>
   );
 };
