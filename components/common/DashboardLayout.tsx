@@ -41,7 +41,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         <Content style={{ margin: '0 16px' }}>
           <AppBreadcrumb />
-          <div className={styles.site_layout_background} style={{ padding: 24, minHeight: 360 }}>
+          <div className={styles.site_layout_background} style={{ padding: 24, minHeight: 600 }}>
             {children}
           </div>
         </Content>

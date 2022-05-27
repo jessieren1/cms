@@ -4,6 +4,7 @@ import { Course } from '../../model/course';
 import Link from 'next/link';
 import styled from 'styled-components';
 import React from 'react';
+import Image from 'next/image';
 
 const StyledRow = styled(Row)`
   position: relative;
@@ -32,7 +33,7 @@ export function CourseCard(props: any) {
   return (
     <Card
       cover={
-        <img
+        <Image
           alt="Course Image"
           // src={course.cover}
           src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
@@ -40,6 +41,8 @@ export function CourseCard(props: any) {
           style={{
             backgroundColor: '#eee',
           }}
+          width={250}
+          height={250}
         />
       }
       {...props.cardProps}

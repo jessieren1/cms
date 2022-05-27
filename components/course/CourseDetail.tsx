@@ -1,5 +1,5 @@
 import { Badge, Card, Col, Collapse, Layout, Row, Steps, Tag } from 'antd';
-import { Schedule } from '../model/course';
+import { Schedule } from '../../model/course';
 import styled from 'styled-components';
 
 const H2 = styled.h2`
