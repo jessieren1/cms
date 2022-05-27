@@ -16,21 +16,6 @@ const selectAfter = (
   </Select>
 );
 
-const DescriptionTextArea = styled(Form.Item)`
-  .ant-form-item-control-input,
-  .ant-form-item-control-input-content,
-  text-area {
-    height: 100%;
-  }
-`;
-
-const UploadItem = styled(Form.Item)`
-  .ant-form-item-control-input,
-  .ant-form-item-control-input div {
-    height: 100%;
-  }
-`;
-
 const CourseForm: React.FC = () => {
   const onFinish = (values: any) => {
     console.log(values);
@@ -52,19 +37,19 @@ const CourseForm: React.FC = () => {
         <div className={styles.box2}>
           <Row className="flex justify-between">
             <Col span={7} offset={1}>
-              <Form.Item label="Teacher" name="teacherId" rules={[{ required: true }]}>
+              <Form.Item label="Teacher" name="teacherId">
                 <Select placeholder="Select teacher"></Select>
               </Form.Item>
             </Col>
 
             <Col span={7} offset={1}>
-              <Form.Item label="Type" name="type" rules={[{ required: true }]}>
+              <Form.Item label="Type" name="type">
                 <Select mode="multiple"></Select>
               </Form.Item>
             </Col>
 
             <Col span={7} offset={1}>
-              <Form.Item label="Course Code" name="uid" rules={[{ required: true }]}>
+              <Form.Item label="Course Code" name="uid">
                 <Input type="text" placeholder="course code" disabled />
               </Form.Item>
             </Col>
@@ -96,42 +81,37 @@ const CourseForm: React.FC = () => {
         </div>
 
         <div className={styles.box4}>
-          <Row className="flex justify-between">
-            <Col span={11} offset={1}>
-              <DescriptionTextArea
-                style={{ height: '100%' }}
-                label="Description"
+          <Row style={{ height: '100%' }}>
+            <Col span={11} offset={1} style={{ height: '100%' }}>
+              <Form.Item
+                style={{ marginBottom: 0 }}
+                label="Course description"
                 name="detail"
-                rules={[
-                  { required: true },
-                  {
-                    min: 100,
-                    max: 1000,
-                    message: 'Description length must between 100 - 1000 characters.',
-                  },
-                ]}
+                rules={[{ required: true }]}
               >
                 <TextArea placeholder="Course description" style={{ height: '100%' }} />
-              </DescriptionTextArea>
+              </Form.Item>
             </Col>
 
-            <Col span={11} offset={1}>
-              <UploadItem label="Cover" style={{ height: '100%' }}>
-                <Dragger>
+            <Col span={11} offset={1} style={{ height: '100%' }}>
+              <Form.Item style={{ marginBottom: 0 }} label="Cover" name="cover">
+                <Dragger style={{ height: '100%' }}>
                   <p className="ant-upload-drag-icon">
                     <InboxOutlined />
                   </p>
                   <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                  <p className="ant-upload-hint">
-                    Support for a single or bulk upload. Strictly prohibit from uploading company
-                    data or other band files
-                  </p>
                 </Dragger>
-              </UploadItem>
+              </Form.Item>
             </Col>
           </Row>
         </div>
       </div>
+
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Next
+        </Button>
+      </Form.Item>
     </Form>
   );
 };
