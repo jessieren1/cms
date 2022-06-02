@@ -14,6 +14,8 @@ const AddCourse: NextPage = () => {
 
   const [course, setCourse] = useState<Course | null>(null);
 
+  const router = useRouter();
+
   return (
     <>
       <Steps current={step} type="navigation" onChange={(step) => setStep(step)}>
@@ -36,9 +38,41 @@ const AddCourse: NextPage = () => {
               />
             );
           case 1:
-            return <CourseSchedule />;
+            return (
+              <CourseSchedule
+                course={course}
+                afterSuccess={() => {
+                  setStep(2);
+                  setMinAvailableStep(2);
+                }}
+              />
+            );
           case 2:
-            return null;
+            return (
+              <Result
+                status="success"
+                title="Successfully Create Course!"
+                extra={[
+                  <Button
+                    type="primary"
+                    key="detail"
+                    onClick={() => router.push(`/dashboard/manager/courses/${course?.id}`)}
+                  >
+                    Go Course
+                  </Button>,
+                  <Button
+                    key="again"
+                    onClick={() => {
+                      setStep(0);
+                      setMinAvailableStep(0);
+                      setCourse(null);
+                    }}
+                  >
+                    Create Again
+                  </Button>,
+                ]}
+              />
+            );
 
           default:
             return null;

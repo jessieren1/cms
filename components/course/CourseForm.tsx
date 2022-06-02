@@ -7,7 +7,13 @@ import Dragger from 'antd/lib/upload/Dragger';
 import { InboxOutlined } from '@ant-design/icons';
 import { ValidateMessages } from '../../lib/constants/common';
 import DebouncedSearchSelect from 'components/common/DebouncedSearchSelect';
-import { getTeachers, getCourseType, getCourseCode } from '../../lib/services';
+import {
+  getTeachers,
+  getCourseType,
+  getCourseCode,
+  updateCourse,
+  addCourse,
+} from '../../lib/services';
 import { OptionValue } from 'model/common';
 import { Course, CourseType } from 'model/course';
 import { disabledDate } from 'lib/util/common';
@@ -29,22 +35,37 @@ export default function CourseForm({
   afterSuccess?: (course: Course) => void;
   course: Course | null;
 }) {
-  const onFinish = (values: any) => {
-    console.log(values);
-  };
+  const [unit, setUnit] = useState<number>(2);
 
   const [form] = Form.useForm();
   const [teacherId, setTeacherId] = useState<number>();
   const [courseTypes, setCourseTypes] = useState<CourseType[]>([]);
 
+  const onFinish = async (values: any) => {
+    const startTime = values.startTime.format('YYYY-MM-DD');
+    const params = {
+      ...values,
+      startTime,
+      teacherId,
+      durationUnit: unit,
+    };
+    //console.log(params);
+    const res: any = course
+      ? await updateCourse({ ...params, id: course.id })
+      : await addCourse(params);
+    if (res.data) {
+      afterSuccess && afterSuccess(res.data);
+    }
+  };
+
   const genCode = useCallback(async () => {
-    const { data } = await getCourseCode({});
+    const { data } = await getCourseCode();
     form.setFieldsValue({ uid: data });
   }, [form]);
 
   useEffect(() => {
     if (!course) {
-      getCourseType({}).then((res: any) => {
+      getCourseType().then((res: any) => {
         if (res.data) {
           setCourseTypes(res.data);
         }

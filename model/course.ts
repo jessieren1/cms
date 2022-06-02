@@ -59,3 +59,22 @@ export interface CourseType {
     paidIds: number[];
   }
   
+
+  export type Weekday = keyof ScheduleTime
+  export interface ScheduleTime {
+    Sunday: string
+    Monday: string
+    Tuesday: string
+    Wednesday: string
+    Thursday: string
+    Friday: string
+    Saturday: string
+  }
+
+  export type CourseScheduleFormValues = {
+    chapters: Pick<Chapter, 'content' | 'name'>[]
+    classTime: {
+      weekday: string
+      time: Date
+    }[]
+  }

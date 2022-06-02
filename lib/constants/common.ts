@@ -1,3 +1,5 @@
+import { Weekday } from "model/course"
+
 export const ValidateMessages = {
     required: "'${name}' is required!",
     types: {
@@ -15,3 +17,13 @@ export const ValidateMessages = {
     },
   }
   
+
+  export const Weekdays: Weekday[] = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ]
