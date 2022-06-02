@@ -52,20 +52,29 @@ clear:right;
   .box3 { 
     grid-column-start: 1; 
     grid-row-start: 2; 
-    height:400px;
+   
   }
   .box4 {
     grid-column-start: 2; 
     grid-column-end: 4; 
     grid-row-start: 2; 
-    height:400px;
+   
+  
 
+  }
+
+  .ant-form-item-control-input{
+    height:100%
+  }
+
+  .ant-form-item-control-input-content{
+    height:100%
   }
 
 
 
 
-.schedule1
+/* .schedule1
 {
 margin-top:20px;
 width:45%;
@@ -80,4 +89,4 @@ vertical-align: top;
 width:45%;
 float:right;
 clear:right;
-}
+} */

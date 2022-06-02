@@ -82,6 +82,7 @@ export default function CourseForm({
       validateMessages={ValidateMessages}
       autoComplete="off"
       onFinish={onFinish}
+      style={{ height: '100%' }}
     >
       <div className={styles.wrapper}>
         <div className={styles.box1}>
@@ -163,12 +164,14 @@ export default function CourseForm({
             <InputNumber min={1} addonAfter={selectAfter} style={{ width: '100%' }} />
           </Form.Item>
         </div>
-
+        {/* how to change antd internal css: 
+ ant-form-item-control-input and ant-form-item-control-input-content?
+ let height:100% */}
         <div className={styles.box4}>
           <Row style={{ height: '100%' }}>
             <Col span={11} offset={1} style={{ height: '100%' }}>
               <Form.Item
-                style={{ marginBottom: 0 }}
+                style={{ height: '100%' }}
                 label="Course description"
                 name="detail"
                 rules={[
@@ -185,7 +188,7 @@ export default function CourseForm({
             </Col>
 
             <Col span={11} offset={1} style={{ height: '100%' }}>
-              <Form.Item style={{ marginBottom: 0 }} label="Cover" name="cover">
+              <Form.Item style={{ height: '100%' }} label="Cover" name="cover">
                 <Dragger style={{ height: '100%' }}>
                   <p className="ant-upload-drag-icon">
                     <InboxOutlined />
