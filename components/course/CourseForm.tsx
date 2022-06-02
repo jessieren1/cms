@@ -18,6 +18,41 @@ import { OptionValue } from 'model/common';
 import { Course, CourseType } from 'model/course';
 import { disabledDate } from 'lib/util/common';
 
+const FullHeightFormItem = styled(Form.Item)`
+  width: 100%;
+  .ant-form-item {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .ant-form-item-control {
+    flex: 1;
+  }
+  .ant-form-item-control-input,
+  .ant-form-item-control-input-content {
+    height: 100% !important;
+  }
+`;
+const FullHeightFormItemUpload = styled(FullHeightFormItem)`
+  .ant-upload-picture-card-wrapper,
+  .ant-form-item-control-input,
+  .ant-upload-list-picture-card,
+  .ant-upload,
+  .ant-upload-list-picture-card-container,
+  .ant-upload-list-item,
+  .ant-upload-list-item-removed,
+  .ant-upload-list-item-list-type-picture-card {
+    width: 100%;
+    height: 100%;
+    animation-duration: 0s;
+  }
+  .ant-upload-animate-inline-appear,
+  .ant-upload-list-item-removed,
+  .ant-upload-list-picture-card-container.ant-upload-animate-inline {
+    display: none;
+  }
+`;
+
 const selectAfter = (
   <Select defaultValue="month" className="select-after">
     <Select.Option value="year">year</Select.Option>
@@ -164,15 +199,12 @@ export default function CourseForm({
             <InputNumber min={1} addonAfter={selectAfter} style={{ width: '100%' }} />
           </Form.Item>
         </div>
-        {/* how to change antd internal css: 
- ant-form-item-control-input and ant-form-item-control-input-content?
- let height:100% */}
+
         <div className={styles.box4}>
           <Row style={{ height: '100%' }}>
-            <Col span={11} offset={1} style={{ height: '100%' }}>
-              <Form.Item
-                style={{ height: '100%' }}
-                label="Course description"
+            <Col span={11} offset={1} style={{ display: 'flex' }}>
+              <FullHeightFormItem
+                label="Description"
                 name="detail"
                 rules={[
                   { required: true },
@@ -183,19 +215,19 @@ export default function CourseForm({
                   },
                 ]}
               >
-                <TextArea placeholder="Course description" style={{ height: '100%' }} />
-              </Form.Item>
+                <Input.TextArea placeholder="Course description" style={{ height: '100%' }} />
+              </FullHeightFormItem>
             </Col>
 
-            <Col span={11} offset={1} style={{ height: '100%' }}>
-              <Form.Item style={{ height: '100%' }} label="Cover" name="cover">
-                <Dragger style={{ height: '100%' }}>
+            <Col span={11} offset={1} style={{ display: 'flex' }}>
+              <FullHeightFormItemUpload label="Cover" name="cover">
+                <Dragger>
                   <p className="ant-upload-drag-icon">
                     <InboxOutlined />
                   </p>
                   <p className="ant-upload-text">Click or drag file to this area to upload</p>
                 </Dragger>
-              </Form.Item>
+              </FullHeightFormItemUpload>
             </Col>
           </Row>
         </div>
