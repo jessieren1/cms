@@ -14,4 +14,15 @@ import { axiosReq } from "./base-api";
       .get('courses/detail', { params })
       .then((res) => dealResponse(res))
   };
+
+  export const getCourseType = (params: any) => {
+    return axiosReq
+      .get('courses/type', {})
+      .then((res) => dealResponse(res))
+  };
   
+  export const getCourseCode = (params: any) => {
+    return axiosReq
+      .get('courses/code', {})
+      .then((res) => dealResponse(res))
+  };
