@@ -56,7 +56,7 @@ const AddCourse: NextPage = () => {
                   <Button
                     type="primary"
                     key="detail"
-                    onClick={() => router.push(`/dashboard/manager/courses/${course?.id}`)}
+                    onClick={() => router.push(`/dashboard/manager/course/${course?.id}`)}
                   >
                     Go Course
                   </Button>,

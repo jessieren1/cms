@@ -78,3 +78,12 @@ export interface CourseType {
       time: Date
     }[]
   }
+
+  export type CourseSearchBy = 'uid' | 'name' | 'type'
+
+  export const CourseSearchBySelect: { value: CourseSearchBy; label: string }[] =
+  [
+    { value: 'uid', label: 'Code' },
+    { value: 'name', label: 'Name' },
+    { value: 'type', label: 'Category' },
+  ]
