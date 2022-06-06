@@ -7,6 +7,8 @@ import Dragger from 'antd/lib/upload/Dragger';
 import { InboxOutlined } from '@ant-design/icons';
 import { ValidateMessages } from '../../lib/constants/common';
 import DebouncedSearchSelect from 'components/common/DebouncedSearchSelect';
+import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
+
 import {
   getTeachers,
   getCourseType,
@@ -17,6 +19,7 @@ import {
 import { OptionValue } from 'model/common';
 import { Course, CourseType } from 'model/course';
 import { disabledDate } from 'lib/util/common';
+import moment from 'moment';
 
 const FullHeightFormItem = styled(Form.Item)`
   width: 100%;
@@ -31,6 +34,9 @@ const FullHeightFormItem = styled(Form.Item)`
   .ant-form-item-control-input,
   .ant-form-item-control-input-content {
     height: 100% !important;
+    text-area {
+      height: 100%;
+    }
   }
 `;
 const FullHeightFormItemUpload = styled(FullHeightFormItem)`
@@ -75,6 +81,8 @@ export default function CourseForm({
   const [form] = Form.useForm();
   const [teacherId, setTeacherId] = useState<number>();
   const [courseTypes, setCourseTypes] = useState<CourseType[]>([]);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const onFinish = async (values: any) => {
     const startTime = values.startTime.format('YYYY-MM-DD');
@@ -97,6 +105,37 @@ export default function CourseForm({
     const { data } = await getCourseCode();
     form.setFieldsValue({ uid: data });
   }, [form]);
+
+  useEffect(() => {
+    if (course) {
+      const cover = course.cover
+        ? [
+            {
+              uid: '1',
+              name: 'cover',
+              url: course.cover,
+              response: { url: course.cover },
+            },
+          ]
+        : [];
+      const values = {
+        ...course,
+        type: course.type.map((item) => item.id),
+        teacherId: course.teacherName,
+        startTime: moment(course.startTime, 'YYYY-MM-DD'),
+        cover,
+      };
+      form.setFieldsValue(values);
+      setTeacherId(course.teacherId);
+      setFileList(cover);
+    } else {
+      form.resetFields();
+      setTeacherId(0);
+      setUnit(2);
+      setFileList([]);
+      setLoading(false);
+    }
+  }, [course, form]);
 
   useEffect(() => {
     if (!course) {
@@ -202,8 +241,9 @@ export default function CourseForm({
 
         <div className={styles.box4}>
           <Row style={{ height: '100%' }}>
-            <Col span={11} offset={1} style={{ display: 'flex' }}>
+            <Col span={11} offset={1} style={{ display: 'flex', height: '100%' }}>
               <FullHeightFormItem
+                style={{ height: '100%' }}
                 label="Description"
                 name="detail"
                 rules={[
@@ -219,9 +259,9 @@ export default function CourseForm({
               </FullHeightFormItem>
             </Col>
 
-            <Col span={11} offset={1} style={{ display: 'flex' }}>
-              <FullHeightFormItemUpload label="Cover" name="cover">
-                <Dragger>
+            <Col span={11} offset={1} style={{ display: 'flex', height: '100%' }}>
+              <FullHeightFormItemUpload label="Cover" name="cover" style={{ height: '100%' }}>
+                <Dragger style={{ height: '100%' }}>
                   <p className="ant-upload-drag-icon">
                     <InboxOutlined />
                   </p>
