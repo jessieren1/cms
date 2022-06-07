@@ -7,7 +7,6 @@ import Dragger from 'antd/lib/upload/Dragger';
 import { InboxOutlined } from '@ant-design/icons';
 import { ValidateMessages } from '../../lib/constants/common';
 import DebouncedSearchSelect from 'components/common/DebouncedSearchSelect';
-import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 
 import {
   getTeachers,
@@ -81,8 +80,6 @@ export default function CourseForm({
   const [form] = Form.useForm();
   const [teacherId, setTeacherId] = useState<number>();
   const [courseTypes, setCourseTypes] = useState<CourseType[]>([]);
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [loading, setLoading] = useState(false);
 
   const onFinish = async (values: any) => {
     const startTime = values.startTime.format('YYYY-MM-DD');
@@ -127,13 +124,10 @@ export default function CourseForm({
       };
       form.setFieldsValue(values);
       setTeacherId(course.teacherId);
-      setFileList(cover);
     } else {
       form.resetFields();
       setTeacherId(0);
       setUnit(2);
-      setFileList([]);
-      setLoading(false);
     }
   }, [course, form]);
 
