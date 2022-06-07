@@ -26,7 +26,9 @@
   background: rgba(255, 255, 255, 0.3);
 }
 
-
+.site_layout_background {
+  background: #fff;
+}
 .out{
     width:100px;
      z-index:100px; 
