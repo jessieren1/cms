@@ -69,6 +69,11 @@ const navLinks = [
       },
     ],
   },
+  {
+    title: 'Message',
+    path: 'message',
+    icon: <SolutionOutlined />,
+  },
 ];
 
 export const generateKey = (data: any, index: number): string => {

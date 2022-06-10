@@ -10,6 +10,7 @@ const { Header, Content, Footer, Sider } = Layout;
 import ManagerSider from './ManagerSider';
 import Link from 'next/link';
 import styled from 'styled-components';
+import MessagePage from 'pages/dashboard/manager/message';
 
 const { TabPane } = Tabs;
 
@@ -101,12 +102,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 >
                   <TabPane key={'notification'} tab={'Notification'}>
                     <MessageContainer>
-                      <p>Notification</p>
+                      <MessagePage />
                     </MessageContainer>
                   </TabPane>
                   <TabPane key={'message'} tab={'Message'}>
                     <MessageContainer>
-                      <p>Message</p>
+                      <MessagePage />
                     </MessageContainer>
                   </TabPane>
                 </Tabs>
