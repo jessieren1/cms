@@ -1,29 +1,65 @@
-export interface Message {
-    createdAt: string;
-    id: number;
-    content: string;
-    status: number;
-    from: Omit<User, 'email'>;
-    type: MessageType;
- }
- 
- export type MessageType = 'notification' | 'message';
- 
- export interface User {
-    id: number;
-    email: string;
-    role: string;
-    nickname: string;
- }
- 
- export interface MessagesRequest extends Paginator {
-    userId: number;
-    status?: number; // 0: unread 1: read;
-    type: MessageType;
- }
+import { Response, Paginator, Role } from './common'
 
- export interface Paginator {
-    page: number; // start: 1;
-    limit: number;
-    total?: number;
- }
+export type MessageType = 'notification' | 'message'
+
+export type MessageStatus = 0 | 1
+
+export interface From {
+  id: number
+  role: Role
+  nickname: string
+}
+
+export interface Message {
+  createdAt: Date
+  id: number
+  content: string
+  status: MessageStatus
+  type: MessageType
+  from: From
+}
+
+export interface GetMessageRequest {
+  status?: number
+  userId?: number
+  limit?: number
+  page?: number
+  type?: MessageType
+}
+
+export interface GetMessageResponseData {
+  total: number
+  messages: Message[]
+  paginator: Paginator
+}
+
+export type GetMessageResponse = Response<GetMessageResponseData>
+export interface MarkMessageAsReadRequest {
+  ids: number[]
+  status: 1
+}
+
+export type MarkMessageAsReadResponse = Response<boolean>
+
+export type GetMessageStaticsRequest = {
+  userId?: number
+}
+export interface MessageStaticsData {
+  sent: { [key in MessageType]: MessageStatics }
+  receive: { [key in MessageType]: MessageStatics }
+}
+export interface MessageStatics {
+  total: number
+  unread: number
+  read: number
+}
+
+export type GetMessageStaticsResponse = Response<MessageStaticsData>
+
+export type MessageCount = {
+  [key in MessageType]: number
+}
+
+export type MessageHistory = { [key: string]: Message[] }
+
+export const MessageTypes: MessageType[] = ['notification', 'message']
