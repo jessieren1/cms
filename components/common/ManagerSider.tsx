@@ -35,18 +35,18 @@ const navLinks = [
       },
     ],
   },
-  {
-    title: 'Teacher',
-    path: 'teacher',
-    icon: <SolutionOutlined />,
-    subNav: [
-      {
-        title: 'Teacher List',
-        path: 'teacher',
-        icon: <TeamOutlined />,
-      },
-    ],
-  },
+  // {
+  //   title: 'Teacher',
+  //   path: 'teacher',
+  //   icon: <SolutionOutlined />,
+  //   subNav: [
+  //     {
+  //       title: 'Teacher List',
+  //       path: 'teacher',
+  //       icon: <TeamOutlined />,
+  //     },
+  //   ],
+  // },
   {
     title: 'Course',
     path: 'course',
