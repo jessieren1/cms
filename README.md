@@ -14,4 +14,4 @@ Second,
 Log in
 (1)Choose Manager
 (2)username: manager@admin.com
-(3)password: 111111
+(3)password: 
